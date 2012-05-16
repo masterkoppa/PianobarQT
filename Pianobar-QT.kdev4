@@ -1,0 +1,4 @@
+[Project]
+Name=Pianobar-QT
+Manager=KDevCMakeManager
+VersionControl=kdevgit
