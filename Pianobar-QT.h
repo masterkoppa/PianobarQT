@@ -2,6 +2,9 @@
 #define Pianobar_QT_H
 
 #include <QtCore/QObject>
+#include <iostream>
+
+
 
 class Pianobar_QT : public QObject
 {
