@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     
     memset(&req, 0, sizeof(req));
     
-    std::cout << "HERE" << std::endl;
+    std::cout << "HERE" << std::endl; 
     
     void *data = &loginReq;
     
