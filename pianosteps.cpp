@@ -40,7 +40,7 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   PianoRequestDataLogin_t loginReq;
     
   loginReq.user = "andresruiz2010@gmail.com";
-  loginReq.password = "passwordHere";
+  loginReq.password = "password";
   loginReq.step = 0;
   
   
@@ -49,6 +49,7 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   
   memset(&request, 0, sizeof(request));
   
+  //This is in a loop because for logging into the system you need to go twice
   do{
     request.data = (void *)&loginReq;
     
@@ -85,6 +86,11 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
     PianoDestroyRequest(&request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
+  if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
+    std::cout << "Invalid user credentials" << std::endl;
+  }else if(pianoRet == PIANO_RET_OK){
+    std::cout << "Valid credentials" << std::endl;
+  }
   std::cout << "Done with login" << std::endl;
 }
 
