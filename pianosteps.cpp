@@ -49,23 +49,43 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   
   memset(&request, 0, sizeof(request));
   
-  request.data = (void *)&loginReq;
+  do{
+    request.data = (void *)&loginReq;
+    
+    pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_LOGIN);
+    
+    if(pianoRet != PIANO_RET_OK){
+      std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
+    }else{
+      std::cout << "Piano Returned OK, moving on" << std::endl;
+    }
+    
+    waitRet = BarPianoHttpRequest(waitressHandle, &request);
+    
+    if(waitRet != WAITRESS_RET_OK){
+      std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+    }else{
+      std::cout << "Waitress Returned OK, moving on" << std::endl;
+    }
+    
+    pianoRet = PianoResponse(pianoHandle, &request);
+    
+    if(pianoRet != PIANO_RET_CONTINUE_REQUEST){
+      if(pianoRet == PIANO_RET_P_INVALID_AUTH_TOKEN){
+	std::cout << "Invalid Auth Token" << std::endl;
+      }else if(pianoRet == PIANO_RET_OK){
+	std::cout << "Everything whent ok" << std::endl;
+      }
+    }
+    
+    if(request.responseData != NULL){
+      free(request.responseData);
+    }
+    
+    PianoDestroyRequest(&request);
+  } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
-  pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_LOGIN);
-  
-  if(pianoRet != PIANO_RET_OK){
-    std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
-  }else{
-    std::cout << "Piano Returned OK, moving on" << std::endl;
-  }
-  
-  waitRet = BarPianoHttpRequest(waitressHandle, &request);
-  
-  if(waitRet != WAITRESS_RET_OK){
-    std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
-  }else{
-    std::cout << "Waitress Returned OK, moving on" << std::endl;
-  }
+  std::cout << "Done with login" << std::endl;
 }
 
 //Code from ui.c:175
