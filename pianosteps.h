@@ -15,7 +15,7 @@ class PianoSteps
 public:
   PianoSteps();
   void PianoInitialize(PianoHandle_t* , WaitressHandle_t* );
-  void PianoLogin();
+  void PianoLogin(PianoHandle_t* pianoHandle);
 };
 
 #endif // PIANOSTEPS_H
