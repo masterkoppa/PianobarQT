@@ -30,7 +30,7 @@ void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* w
 }
 
 //TODO: Allow for dynamic username and passwords
-void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle)
+void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)
 {
   PianoReturn_t pianoRet;
   WaitressReturn_t waitRet;
@@ -59,7 +59,25 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle)
     std::cout << "Piano Returned OK, moving on" << std::endl;
   }
   
+  waitRet = BarPianoHttpRequest(waitressHandle, &request);
   
-  
+  if(waitRet != WAITRESS_RET_OK){
+    std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+  }else{
+    std::cout << "Waitress Returned OK, moving on" << std::endl;
+  }
 }
+
+//Code from ui.c:175
+WaitressReturn_t PianoSteps::BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request)
+{
+  waitressHandle->extraHeaders = "Content-Type: text/plain\r\n";
+  waitressHandle->postData = request->postData;
+  waitressHandle->method = WAITRESS_METHOD_POST;
+  waitressHandle->url.path = request->urlPath;
+  waitressHandle->url.tls = request->secure;
+  
+  return WaitressFetchBuf(waitressHandle, &request->responseData);
+}
+
 

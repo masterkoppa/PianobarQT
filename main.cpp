@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     
     std::cout << "Calling Login" << std::endl;
     
-    piano.PianoLogin(&ph);
+    piano.PianoLogin(&ph, &wh);
 
     
     WaitressReturn_t *wret;
