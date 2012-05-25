@@ -8,7 +8,7 @@ extern "C" {
 }
 
 #define PIANOHELPER_H
-#define TLS_FINGERPRINT "\xA2\xA0\xBE\x8A\x37\x92\x39\xAE\x2B\x2E\x71\x4C\x56\xB3\x8B\xC1\x2A\x9B\x4B\x77"
+#define TLS_FINGERPRINT "\242\240\276\212\067\222\071\256+.qLV\263\213\301*\233Kw?+-acdeghijmnpqrstux$b()="
 
 class PianoHelper
 {

@@ -8,6 +8,7 @@ PianoSteps::PianoSteps()
 
 void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)
 {
+  gnutls_global_init();
   
   //Constants for Piano Init
   char *user = "android";
@@ -25,8 +26,7 @@ void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* w
   WaitressInit(waitressHandle);
   waitressHandle->url.host = PIANO_RPC_HOST;
     
-  waitressHandle->tlsFingerprint = (const char*)malloc(strlen(TLS_FINGERPRINT));
-  memcpy((void*)waitressHandle->tlsFingerprint, (void*)TLS_FINGERPRINT, strlen(TLS_FINGERPRINT));
+  waitressHandle->tlsFingerprint = TLS_FINGERPRINT;
 }
 
 //TODO: Allow for dynamic username and passwords
