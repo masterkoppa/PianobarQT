@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "Pianobar-QT.h"
+#include "pianosteps.h"
 
 extern "C" {
 #include "piano.h"
@@ -8,20 +9,17 @@ extern "C" {
 
 int main(int argc, char** argv)
 {    
-    char *user = "android";
-    char *password = "AC7IBG09A3DTSYM4R41UJWL07VLN8JI7";
-    char *device = "android-generic";
-    char *in = "R=U!LH$O2B#";
-    char *out = "6#26FRL$ZWD";
+
     
-    PianoHandle ph;
-    
-    
-    PianoInit(&ph, user, password, device, in, out);
+    PianoHandle_t ph;
     
     WaitressHandle_t wh;
     
-    WaitressInit(&wh);
+    PianoSteps piano;
+    
+    piano.PianoInitialize(&ph, &wh);
+    
+    
     
     
     PianoRequestDataLogin_t loginReq;
@@ -50,6 +48,9 @@ int main(int argc, char** argv)
     }else{
       std::cout << "Loged in?" << std::endl;
     }
+    
+    WaitressReturn_t *wret;
+    
     
     
     
