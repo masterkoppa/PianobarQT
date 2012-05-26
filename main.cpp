@@ -46,6 +46,7 @@ int main(int argc, char** argv)
     
     std::cout << "Playlist Size: " << playlist.size() << std::endl;
     
+    //Iterates through the playlist and prints it out
     std::cout << "Playlist: " << std::endl;
     for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
       std::cout << playlist[i].toString() << std::endl;

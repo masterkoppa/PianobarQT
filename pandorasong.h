@@ -32,9 +32,21 @@ public:
      */
     char* toString();
     
+    /**
+     * Returns the song artist
+     */
     char* getArtist();
+    
+    /**
+     * Returns the song title
+     */
     char* getTitle();
+    
+    /**
+     * Returns the song album
+     */
     char* getAlbum();
+    
     /**
      * Downloads the album art into a temporary folder and returns it's
      * location.
