@@ -2,8 +2,7 @@
 
 PianoSteps::PianoSteps()
 {
-  //NOTHING
-  std::cout << "Built" << std::endl;
+  //Default constructor
 }
 
 void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)

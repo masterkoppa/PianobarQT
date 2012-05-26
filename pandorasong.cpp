@@ -18,3 +18,38 @@ PandoraSong::PandoraSong(PianoSong_t song)
   format = song.audioFormat;
 }
 
+char* PandoraSong::getAlbum()
+{
+  return album;
+}
+
+char* PandoraSong::getArtist()
+{
+  return artist;
+}
+
+char* PandoraSong::getTitle()
+{
+  return title;
+}
+
+char* PandoraSong::toString()
+{
+  
+  char* ret;
+  //Alocate enough memory for the whole string, plus some extra in case of 
+  //problems
+  ret = (char* )malloc(sizeof(title) + sizeof(artist) + sizeof(album) + 20);
+  
+  //Copy the original string
+  strcpy(ret, artist);
+  
+  //Append these strings to the return
+  strcat(ret, " - ");
+  strcat(ret, title);
+  strcat(ret, " - ");
+  strcat(ret, album);
+  
+  return  ret;
+}
+

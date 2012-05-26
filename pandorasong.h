@@ -20,8 +20,37 @@ private:
   float fileGain;
   PianoSongRating_t rating;
   PianoAudioFormat_t format;
+  bool songDownloaded = false;
+  bool albumArtDownloaded = false;
 public:
     PandoraSong(PianoSong_t song);
+    /**
+     * Returns the string representation of this song in the following
+     * format:
+     * 
+     * Artist - Title - Album
+     */
+    char* toString();
+    
+    char* getArtist();
+    char* getTitle();
+    char* getAlbum();
+    /**
+     * Downloads the album art into a temporary folder and returns it's
+     * location.
+     */
+    char* getAlbumArt();
+    
+    /**
+     * Downloads the song into a temporary folder and returns it's location.
+     */
+    char* getSong();
+    
+    /**
+     * Clears all temporary files and frees up the memory by this object
+     * TODO In the application make this optional.
+     */
+    void destroySong();
 };
 
 #endif // PANDORASONG_H

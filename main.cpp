@@ -44,7 +44,12 @@ int main(int argc, char** argv)
     
     std::vector<PandoraSong> playlist = helper.parsePlaylist(song);
     
-    std::cout << playlist.size() << std::endl;
+    std::cout << "Playlist Size: " << playlist.size() << std::endl;
+    
+    std::cout << "Playlist: " << std::endl;
+    for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
+      std::cout << playlist[i].toString() << std::endl;
+    }
     
     std::cout << "Goodbye!" << std::endl;
     
