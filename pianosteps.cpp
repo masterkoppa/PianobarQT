@@ -39,8 +39,8 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   //IDEA: Build this object inside the GUI and pass it built
   PianoRequestDataLogin_t loginReq;
     
-  loginReq.user = "andresruiz2010@gmail.com";
-  loginReq.password = "password";
+  loginReq.user = "ajr2546@rit.edu";
+  loginReq.password = "passwordTest";
   loginReq.step = 0;
   
   
@@ -91,8 +91,45 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   }else if(pianoRet == PIANO_RET_OK){
     std::cout << "Valid credentials" << std::endl;
   }
+  
+  
+  
   std::cout << "Done with login" << std::endl;
 }
+
+void PianoSteps::PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)
+{
+  PianoReturn_t pianoRet;
+  WaitressReturn_t waitRet;
+  
+  PianoRequest_t request;
+  
+  memset(&request, 0, sizeof(request));
+  
+  
+  do{
+    pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_GET_STATIONS);
+    
+    if(pianoRet != PIANO_RET_OK){
+      std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
+    }else{
+      std::cout << "Piano Returned OK, moving on" << std::endl;
+    }
+    
+    waitRet = BarPianoHttpRequest(waitressHandle, &request);
+    
+    if(waitRet != WAITRESS_RET_OK){
+      std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+    }else{
+      std::cout << "Waitress Returned OK, moving on" << std::endl;
+    }
+    
+    pianoRet = PianoResponse(pianoHandle, &request);
+  } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
+  
+  std::cout << "Done getting stations" << std::endl;
+}
+
 
 //Code from ui.c:175
 WaitressReturn_t PianoSteps::BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request)
