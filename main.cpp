@@ -16,6 +16,8 @@ int main(int argc, char** argv)
 //     Pianobar_QT mw;
 //     mw.show();
 //     return app.exec();
+
+    curl_global_init(CURL_GLOBAL_ALL);
     PianoHandle_t ph;
     
     WaitressHandle_t wh;
@@ -50,9 +52,14 @@ int main(int argc, char** argv)
     std::cout << "Playlist: " << std::endl;
     for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
       std::cout << playlist[i].toString() << std::endl;
+      //std::cout << playlist[i].getAlbumArt() << std::endl;
+      sleep(10);
+      std::cout << playlist[i].getSong() << std::endl;
     }
     
     std::cout << "Goodbye!" << std::endl;
+    
+    curl_global_cleanup();
     
     return 0;
 }

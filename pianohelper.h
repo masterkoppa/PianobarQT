@@ -8,17 +8,18 @@
 #include <sstream>
 #include <iostream>
 
+//Other files
+#include "pandorastation.h"
+#include "pandorasong.h"
+
 //Include the pianobar libraries
 extern "C" {
 #include "piano.h"
 #include <json/json_object.h>
 #include "waitress.h"
-#include <curl/curl.h>
 }
 
-//Other files
-#include "pandorastation.h"
-#include "pandorasong.h"
+
 
 //The Pandora TLS_FINGERPRINT
 #define TLS_FINGERPRINT "\242\240\276\212\067\222\071\256+.qLV\263\213\301*\233Kw?+-acdeghijmnpqrstux$b()="
@@ -43,12 +44,7 @@ public:
    * helper methods that help with the GUI and playback.
    */
   std::vector<PandoraSong> parsePlaylist(PianoSong_t* playlist);
-  
-  void downloadSong(const std::string url, char* destination);
-  
-private:
-  CURLcode curl_read(const std::string& url, std::ostream& os, long timeout = 30);
-  static size_t data_write(void* buf, size_t size, size_t nmemb, void* userp);
+
 };
 
 #endif // PIANOHELPER_H
