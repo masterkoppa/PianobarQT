@@ -13,23 +13,33 @@ char* PianoHelper::PianoJsonStrdup(json_object* json, const char* key)
 }
 
 
-std::vector< PandoraStation > PianoHelper::parseStations(PianoStation_t stations)
+std::vector< PandoraStation > PianoHelper::parseStations(PianoStation_t* stations)
 {
   std::vector<PandoraStation> ret;
   
-  while(true){
-    PandoraStation station (stations);
+  while(stations != NULL){
+    PandoraStation station (*stations);
     ret.push_back(station);
     //Weird way of iterrating 
-    if(stations.next == NULL){
-      break;
-    }else{
-      stations = *stations.next;
-    }
+    stations = stations->next;
   }
   
   return ret;
 }
+
+std::vector< PandoraSong > PianoHelper::parsePlaylist(PianoSong_t* playlist)
+{
+  std::vector<PandoraSong> ret;
+  
+  while(playlist != NULL){
+    PandoraSong song (*playlist);
+    ret.push_back(song);
+    playlist = playlist->next;
+  }
+  
+  return ret;
+}
+
 
 void PianoHelper::downloadSong(const std::string url, char* destination)
 {

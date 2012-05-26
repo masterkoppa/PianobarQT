@@ -18,6 +18,7 @@ extern "C" {
 
 //Other files
 #include "pandorastation.h"
+#include "pandorasong.h"
 
 //The Pandora TLS_FINGERPRINT
 #define TLS_FINGERPRINT "\242\240\276\212\067\222\071\256+.qLV\263\213\301*\233Kw?+-acdeghijmnpqrstux$b()="
@@ -33,7 +34,15 @@ public:
   * @param stations PianoStation representation from libpianobar, this must
   * be the head of the list for the program to work correctly.
   */
-  std::vector<PandoraStation> parseStations(PianoStation_t stations);
+  std::vector<PandoraStation> parseStations(PianoStation_t* stations);
+  
+  /**
+   * Helper method that parses the linked list of songs pass by
+   * the pandora playlist. These songs are put into objects and
+   * sent into a vector. This provides some nice sanity keeping
+   * helper methods that help with the GUI and playback.
+   */
+  std::vector<PandoraSong> parsePlaylist(PianoSong_t* playlist);
   
   void downloadSong(const std::string url, char* destination);
   

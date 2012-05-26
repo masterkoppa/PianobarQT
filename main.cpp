@@ -35,13 +35,16 @@ int main(int argc, char** argv)
     
     PianoHelper helper;
     
-    std::vector<PandoraStation> stations = helper.parseStations(*ph.stations);
+    std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
     
     std::cout << stations.size() << std::endl;
     
     PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, ph.stations->next);
     
-    helper.downloadSong(song->audioUrl, "/tmp/pandora_temp.mp4");
+    
+    std::vector<PandoraSong> playlist = helper.parsePlaylist(song);
+    
+    std::cout << playlist.size() << std::endl;
     
     std::cout << "Goodbye!" << std::endl;
     
