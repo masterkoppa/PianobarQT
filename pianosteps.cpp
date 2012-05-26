@@ -145,7 +145,7 @@ WaitressReturn_t PianoSteps::BarPianoHttpRequest(WaitressHandle_t* waitressHandl
   return WaitressFetchBuf(waitressHandle, &request->responseData);
 }
 
-void PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station)
+PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station)
 {
   PianoReturn_t pianoRet;
   WaitressReturn_t waitRet;
@@ -183,8 +183,11 @@ void PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* 
     pianoRet = PianoResponse(pianoHandle, &request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
-  std::cout << playlistReq.retPlaylist->artist << std::endl;
+  std::cout << playlistReq.retPlaylist->audioUrl << std::endl;
+  std::cout << playlistReq.retPlaylist->coverArt << std::endl;
   
   std::cout << "Got playlist" << std::endl;
+  
+  return playlistReq.retPlaylist;
 }
 

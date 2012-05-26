@@ -5,17 +5,15 @@
 
 Pianobar_QT::Pianobar_QT()
 {
-    QTimer* timer = new QTimer(this);
-    connect( timer, SIGNAL(timeout()), SLOT(output()) );
-    timer->start( 1000 );
+//    Phonon::MediaObject* media = new Phonon::MediaObject(this);
+//    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
+//    media->setCurrentSource(QFileDialog::getOpenFileName(0,QString("Select a file to play"),QString()));
+//    media->play();
+  
 }
 
-Pianobar_QT::~Pianobar_QT()
-{}
 
-void Pianobar_QT::output()
-{
-    std::cout << "Hello World!" << std::endl;
-}
+
+
 
 #include "Pianobar-QT.moc"

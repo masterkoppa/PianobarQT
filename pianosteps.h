@@ -34,7 +34,7 @@ public:
   /**
    * SEE: main.c:161
    */
-  void PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station);
+    PianoSong_t* PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station);
 private:
     WaitressReturn_t BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request);
 };

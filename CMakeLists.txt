@@ -1,10 +1,10 @@
 project(Pianobar-QT)
 cmake_minimum_required(VERSION 2.6)
-find_package(Qt4 REQUIRED)
-
-include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} /home/andres/git/pianobar/src/libwaitress/)
+find_package(KDE4 REQUIRED)
+include (KDE4Defaults)
+include_directories(${QT_INCLUDES} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} /home/andres/git/pianobar/src/libwaitress/)
 
 set(Pianobar-QT_SRCS pandorastation.cpp pianosteps.cpp pianohelper.cpp Pianobar-QT.cpp main.cpp)
 qt4_automoc(${Pianobar-QT_SRCS})
 add_executable(Pianobar-QT ${Pianobar-QT_SRCS})
-target_link_libraries(Pianobar-QT ${QT_QTCORE_LIBRARY} /usr/local/lib/libpiano.a /home/andres/git/pianobar/src/libwaitress/waitress.a -lgcrypt -lgnutls -ljson)
+target_link_libraries(Pianobar-QT ${QT_QTCORE_LIBRARY} ${KDE4_KDEUI_LIBS} phonon /usr/local/lib/libpiano.a /home/andres/git/pianobar/src/libwaitress/waitress.a -lgcrypt -lgnutls -ljson -lcurl)
