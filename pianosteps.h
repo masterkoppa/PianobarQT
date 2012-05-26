@@ -31,6 +31,10 @@ public:
    */
   void PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle);
   void PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle);
+  /**
+   * SEE: main.c:161
+   */
+  void PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station);
 private:
     WaitressReturn_t BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request);
 };

@@ -36,6 +36,8 @@ int main(int argc, char** argv)
     
     std::cout << stations.size() << std::endl;
     
+    piano.PianoGetPlaylist(&ph, &wh, ph.stations->next);
+    
     
     std::cout << "Goodbye!" << std::endl;
     

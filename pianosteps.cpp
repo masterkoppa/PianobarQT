@@ -145,4 +145,46 @@ WaitressReturn_t PianoSteps::BarPianoHttpRequest(WaitressHandle_t* waitressHandl
   return WaitressFetchBuf(waitressHandle, &request->responseData);
 }
 
+void PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station)
+{
+  PianoReturn_t pianoRet;
+  WaitressReturn_t waitRet;
+  PianoRequestDataGetPlaylist_t playlistReq;
+  
+  playlistReq.station = station;
+  //TODO: Make this adjustable by some sort of settings
+  playlistReq.format = PIANO_AF_AACPLUS;
+  
+  
+  PianoRequest_t request;
+  
+  memset(&request, 0, sizeof(request));
+  
+  
+  do{
+    request.data = (void *)&playlistReq;
+    
+    pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_GET_PLAYLIST);
+    
+    if(pianoRet != PIANO_RET_OK){
+      std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
+    }else{
+      std::cout << "Piano Returned OK, moving on" << std::endl;
+    }
+    
+    waitRet = BarPianoHttpRequest(waitressHandle, &request);
+    
+    if(waitRet != WAITRESS_RET_OK){
+      std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+    }else{
+      std::cout << "Waitress Returned OK, moving on" << std::endl;
+    }
+    
+    pianoRet = PianoResponse(pianoHandle, &request);
+  } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
+  
+  std::cout << playlistReq.retPlaylist->artist << std::endl;
+  
+  std::cout << "Got playlist" << std::endl;
+}
 
