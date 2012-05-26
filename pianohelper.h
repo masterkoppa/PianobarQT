@@ -18,6 +18,13 @@ public:
   PianoHelper();
   char *PianoJsonStrdup(json_object *json, const char* key);
   PandoraStation getStations();
+  
+  /**
+  * Helper method that parses the linked list of stations and puts them in a 
+  * nice c++ class. This is for the GUI and for my own sanity.
+  * @param stations PianoStation representation from libpianobar, this must
+  * be the head of the list for the program to work correctly.
+  */
   std::vector<PandoraStation> parseStations(PianoStation_t stations);
 };
 

@@ -8,6 +8,7 @@ PianoSteps::PianoSteps()
 
 void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)
 {
+  //Initialize the gnutls library, otherwise wierd things start to happen
   gnutls_global_init();
   
   //Constants for Piano Init
@@ -18,11 +19,12 @@ void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* w
   char *out = "6#26FRL$ZWD";
   
   //Initialize PianoHandle
+  //TODO: DOCUMENT METHOD IN LIBPIANOBAR
   PianoInit(pianoHandle, user, password, device, in, out);
   
   
-  //Constants for WaitressHandle
-  
+  //Initialize WaitressHandle
+  //TODO: DOCUMENT METHOD IN LIBWAITRESS
   WaitressInit(waitressHandle);
   waitressHandle->url.host = PIANO_RPC_HOST;
     
