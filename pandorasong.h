@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <curl/curl.h>
+#include <string>
 
 class PandoraSong
 {
@@ -68,8 +69,8 @@ public:
      */
     void destroySong();
 private:
-  void downloadSong(const std::string url, char* destination);
-  CURLcode curl_read(const std::string& url, std::ostream& os, long int timeout);
+  void downloadSong(char* url, char* destination);
+  CURLcode curl_read(char* url, std::ostream& os, long int timeout);
   static size_t data_write(void* buf, size_t size, size_t nmemb, void* userp);
   /**
    * Helper funtion that returns the path where the album art should be
@@ -81,7 +82,7 @@ private:
    * Helper function that returns the path where the song should be
    * stored or is currently stored in the case of deletion.
    */
-  char* generateSongPath();
+    char* generateSongPath();
 };
 
 #endif // PANDORASONG_H

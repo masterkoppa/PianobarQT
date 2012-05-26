@@ -69,14 +69,16 @@ char* PandoraSong::getSong()
 {
   char* dest = generateSongPath();
   
+  std::cout << "URL: " <<  audioUrl << std::endl;
+  
   downloadSong(audioUrl, dest);
   
   return dest;
 }
 
 
-void PandoraSong::downloadSong(const std::string url, char* destination)
-{
+void PandoraSong::downloadSong(char* url, char* destination)
+{  
   std::ofstream ofs (destination);
   CURLcode returnCode = curl_read(url, ofs, 30);
   
@@ -87,7 +89,7 @@ void PandoraSong::downloadSong(const std::string url, char* destination)
 
 
 //Code from: http://www.cplusplus.com/forum/unices/45878/
-CURLcode PandoraSong::curl_read(const std::string& url, std::ostream& os, long int timeout)
+CURLcode PandoraSong::curl_read(char* url, std::ostream& os, long int timeout)
 {
   
   
@@ -101,7 +103,7 @@ CURLcode PandoraSong::curl_read(const std::string& url, std::ostream& os, long i
     && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L))
     && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_FILE, &os))
     && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout))
-    && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_URL, url.c_str())))
+    && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_URL, url)))
     {
       code = curl_easy_perform(curl);
     }
@@ -138,7 +140,13 @@ char* PandoraSong::generateAlbumPath()
 
 char* PandoraSong::generateSongPath()
 {
-  char* dest = (char*) malloc(sizeof("/tmp/") + sizeof(title)*100);
+  
+  char* dest = (char*)malloc(sizeof(title) * 1000);
+  //std::string dest;
+  
+  //dest += "/tmp/";
+  //dest += title;
+  //dest += ".mp4";
   
   strcpy(dest, "/tmp/");
   strcat(dest, title);

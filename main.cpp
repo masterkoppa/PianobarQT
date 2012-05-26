@@ -53,7 +53,7 @@ int main(int argc, char** argv)
     for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
       std::cout << playlist[i].toString() << std::endl;
       //std::cout << playlist[i].getAlbumArt() << std::endl;
-      sleep(10);
+      sleep(2);
       std::cout << playlist[i].getSong() << std::endl;
     }
     
