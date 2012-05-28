@@ -29,7 +29,7 @@ public:
    * This processed is repeated twice to validate the user with the server.
    * ----Don't know why twice but it can't do it in one go apparently.
    */
-  void PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle);
+  bool PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, char* username, char* password);
   void PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle);
   /**
    * SEE: main.c:161

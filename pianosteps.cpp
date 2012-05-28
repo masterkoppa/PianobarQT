@@ -31,7 +31,7 @@ void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* w
 }
 
 //TODO: Allow for dynamic username and passwords
-void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)
+bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, char* username, char* password)
 {
   PianoReturn_t pianoRet;
   WaitressReturn_t waitRet;
@@ -39,9 +39,12 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   
   //IDEA: Build this object inside the GUI and pass it built
   PianoRequestDataLogin_t loginReq;
-    
-  loginReq.user = "ajr2546@rit.edu";
-  loginReq.password = "passwordTest";
+  
+  //loginReq.user = "ajr2546@rit.edu";
+  //loginReq.password = "passwordTest";
+  std::cout << "User: " << username << " Pass: " << password << std::endl;
+  loginReq.user = username;
+  loginReq.password = password;
   loginReq.step = 0;
   
   
@@ -89,13 +92,16 @@ void PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   
   if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
     std::cout << "Invalid user credentials" << std::endl;
+    return false;
   }else if(pianoRet == PIANO_RET_OK){
     std::cout << "Valid credentials" << std::endl;
+    return true;
   }
   
   
   
   std::cout << "Done with login" << std::endl;
+  return false;
 }
 
 void PianoSteps::PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle)
