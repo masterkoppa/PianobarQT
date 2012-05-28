@@ -8,7 +8,7 @@
 #include "pianosteps.h"
 #include "pandorastation.h"
 #include "pianohelper.h"
-#include "pianobar_qt_mainwindow.h"
+#include "Pianobar-QT_MainWindow.h"
 
 //Libpiano
 extern "C" {
@@ -55,7 +55,6 @@ private:
     WaitressHandle_t wh;
     PianoSteps piano;
     PianoHelper helper;
-    PandoraStation* selectedStation;
     QLineEdit* userName;
     QLineEdit* passwordField;
     QPushButton* ok;
