@@ -2,27 +2,27 @@
 
 Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QWidget* parent): QWidget(parent)
 {
-
+  media = new Phonon::MediaObject(this);
+  Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
 }
 
-void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t* ph, WaitressHandle_t* wh)
+void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t php, WaitressHandle_t whp)
 {
-  //Make sure that you are logged into the system
-  Q_ASSERT(ph->user.listenerId != NULL);
+    
+    //Make sure that you are logged into the system
+    Q_ASSERT((ph.user.listenerId != NULL));
   
-  
+    this->ph = php;
+    this->wh = whp;
       
-    piano.PianoGetStations(ph, wh);
+    piano.PianoGetStations(&ph, &wh);
     
     
-    std::vector<PandoraStation> stations = helper.parseStations(ph->stations);
+    std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
     
-    selectedStation = new PandoraStation(*ph->stations->next);
+    selectedStation = new PandoraStation(*ph.stations->next);
     
     getMoreSongs();
-    
-    media = new Phonon::MediaObject(this);
-    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
 
     //Set the index to start at 0
     playIndex = 0;
@@ -32,6 +32,7 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t* ph, WaitressHandle_t* wh
     
     //Queue up the first one
     QUrl link = QUrl::fromEncoded(playlist[0].getAudioURL().toAscii());
+    link.errorString();
     media->setCurrentSource(link);
     media->play();
     
@@ -91,6 +92,7 @@ void Pianobar_QT_MainWindow::getMoreSongs()
   for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
     QString song = playlist[i].toString();
     std::cout << song.toStdString() << std::endl;
+    std::cout << playlist[i].getAudioURL().toStdString() << std::endl;
   }
 }
 

@@ -35,9 +35,6 @@ extern "C" {
 
 
 
-
-
-
 class Pianobar_QT : public QWidget
 {
 Q_OBJECT

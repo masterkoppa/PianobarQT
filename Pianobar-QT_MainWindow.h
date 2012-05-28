@@ -35,7 +35,7 @@ class Pianobar_QT_MainWindow : public QWidget
   Q_OBJECT
 public:
     Pianobar_QT_MainWindow(QWidget* parent = 0);
-    void setHandlers(PianoHandle_t* ph, WaitressHandle_t* wh);
+    void setHandlers(PianoHandle_t ph, WaitressHandle_t wh);
 private:
     PianoHandle_t ph;
     WaitressHandle_t wh;

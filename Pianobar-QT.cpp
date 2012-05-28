@@ -87,6 +87,13 @@ void Pianobar_QT::logIn(){
     free(user);
     free(pass);
     
+    Pianobar_QT_MainWindow mainWindow;
+    
+    mainWindow.resize(500, 500);
+    mainWindow.setHandlers(ph, wh);
+    mainWindow.show();
+    
+    //this->close();
     
     //Make sure that there are no double logins
     ok->disconnect(SIGNAL(clicked(bool)));
