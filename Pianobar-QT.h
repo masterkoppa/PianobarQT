@@ -42,13 +42,20 @@ class Pianobar_QT : public QWidget
 Q_OBJECT
 public:
     Pianobar_QT();
-    Pianobar_QT(QString url);
+
 private:
     QLabel* label;
     Phonon::MediaObject* media;
     QString timeToString(long time_msecs);
     std::vector<PandoraSong> playlist;
     int playIndex;
+    void getMoreSongs();
+    PianoHandle_t ph;
+    WaitressHandle_t wh;
+    PianoSteps piano;
+    PianoHelper helper;
+    PandoraStation* selectedStation;
+    
     
 private slots:
     void onUpdate();

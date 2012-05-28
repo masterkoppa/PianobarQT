@@ -4,39 +4,31 @@
 
 Pianobar_QT::Pianobar_QT() : QWidget()
 {
-    PianoHandle_t ph;
-    
-    WaitressHandle_t wh;
-    
-    PianoSteps piano;
-    
+
     piano.PianoInitialize(&ph, &wh);
     
     piano.PianoLogin(&ph, &wh);
     
     piano.PianoGetStations(&ph, &wh);
     
-    PianoHelper helper;
     
     std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
     
-    PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, ph.stations->next);
+    selectedStation = new PandoraStation(*ph.stations->next);
     
-    playlist = helper.parsePlaylist(song);
+    getMoreSongs();
     
     media = new Phonon::MediaObject(this);
     Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
-    
-    //Iterates through the playlist and prints it out
-    std::cout << "Playlist: " << std::endl;
-    for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
-      QString song = playlist[i].toString();
-      std::cout << song.toStdString() << std::endl;
-      
 
-      //media->enqueue(Phonon::MediaSource(link));
-    }
-    playIndex = 0;
+    
+    //Set the index to start at 0
+    playIndex = 2;
+    
+    //Before we continue make sure that we have a playlist
+    Q_ASSERT(playlist.size() > 0);
+    
+    //Queue up the first one
     QUrl link = QUrl::fromEncoded(playlist[0].getAudioURL().toAscii());
     media->setCurrentSource(link);
     media->play();
@@ -65,34 +57,32 @@ void Pianobar_QT::onUpdate()
    
    retString.append("/");
    retString.append(timeTotal);
-   //std::cout << media->queue().size() << std::endl;
-   //std::cout << retString.toStdString() << std::endl;
    
    label->setText(retString);
-   //label->setText();
 }
 
 void Pianobar_QT::aboutToEnd()
 {
-   std::cout << "About to end" << std::endl;
    if(playIndex < playlist.size()){
-     std::cout << "Getting next song..." << std::endl;
-     std::cout << media->queue().size() << std::endl;
      playIndex++;
      QUrl link = QUrl::fromEncoded(playlist[playIndex].getAudioURL().toAscii());
      media->setCurrentSource(Phonon::MediaSource(link));
      media->play();
-     std::cout << media->state() << std::endl;
-     std::cout << media->queue().size() << std::endl;
-     std::cout << playlist[playIndex].getTitle() << std::endl;
+     std::cout << "Playing: " << playlist[playIndex].getTitle() << std::endl;
    }else{
     std::cout << "End of playlist" << std::endl;
+   }
+   
+   if(playIndex == playlist.size()){
+    std::cout << "Seems like we are finished here, lets get the next one" << std::endl;
+    
+    getMoreSongs();
    }
 }
 
 void Pianobar_QT::onStop()
 {
-  std::cout << "End of playlist" << std::endl;
+  std::cout << "End of playlist, done" << std::endl;
   if(media->queue().size() > 0){
     std::cout << "I shouldn't be stopping" << std::endl;
     media->play();
@@ -137,6 +127,25 @@ QString Pianobar_QT::timeToString(long time_msecs)
   retString.append(QString::number(seconds));
   
   return retString;
+}
+void Pianobar_QT::getMoreSongs()
+{
+  PianoStation_t station = selectedStation->toPianobarStation();
+    
+  PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, &station);
+  if(playlist.empty()){
+    playlist = helper.parsePlaylist(song);
+  }else{
+    std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
+    playlist.insert(playlist.end(), tmp.begin(), tmp.end());
+  }
+  
+  //Iterates through the playlist and prints it out
+  std::cout << "Playlist: " << std::endl;
+  for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
+    QString song = playlist[i].toString();
+    std::cout << song.toStdString() << std::endl;
+  }
 }
 
 
