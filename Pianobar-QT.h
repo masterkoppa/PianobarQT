@@ -1,7 +1,21 @@
 #ifndef Pianobar_QT_H
 #define Pianobar_QT_H
 
-#include <QtCore/QObject>
+//System Headers
+#include <iostream>
+
+//Project Headers
+#include "pianosteps.h"
+#include "pandorastation.h"
+#include "pianohelper.h"
+
+//Libpiano
+extern "C" {
+#include "piano.h"
+#include "waitress.h"
+}
+
+
 //Phonon
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
@@ -13,8 +27,13 @@
 #include <qtextedit.h>
 #include <QLabel>
 #include <QUrl>
+#include <QTimer>
+#include <qgridlayout.h>
+#include <QDesktopWidget>
+#include <qgraphicsitem.h>
+#include <QtCore/QObject>
 
-#include <iostream>
+
 
 
 
@@ -28,10 +47,13 @@ private:
     QLabel* label;
     Phonon::MediaObject* media;
     QString timeToString(long time_msecs);
+    std::vector<PandoraSong> playlist;
+    int playIndex;
     
 private slots:
     void onUpdate();
     void aboutToEnd();
+    void onStop();
 };
 
 #endif // Pianobar_QT_H
