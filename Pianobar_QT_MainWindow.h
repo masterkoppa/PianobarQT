@@ -29,6 +29,9 @@ private:
     
     QStationsList* stationsDock;
     Phonon::MediaObject* media;
+    
+private slots:
+    void onNewStationSelect();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H

@@ -1,4 +1,5 @@
 #include "Pianobar_QT_MainWindow.h"
+#include <QListWidget>
 
 
 Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QWidget* parent, Qt::WindowFlags flags): QMainWindow(parent, flags)
@@ -29,7 +30,8 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    stationsDock = new QStationsList();
    
    addDockWidget(Qt::LeftDockWidgetArea, stationsDock);
-  
+   
+   
 }
 
 
@@ -40,6 +42,7 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
     std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
     
     stationsDock->setStations(stations);
+    connect(stationsDock->stationList, SIGNAL(currentRowChanged(int)), SLOT(onNewStationSelect()));
     
     PandoraStation* station = new PandoraStation(*ph.stations->next);
     
@@ -55,6 +58,12 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
     media->setCurrentSource(link);
     //media->play();
 }
+
+void Pianobar_QT_MainWindow::onNewStationSelect()
+{
+  std::cout << "New Station" << std::endl;
+}
+
 
 
 #include "Pianobar_QT_MainWindow.moc"
