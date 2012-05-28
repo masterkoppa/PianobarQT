@@ -1,5 +1,6 @@
 #include "QStationsList.h"
 #include <QListWidget>
+#include <qlayout.h>
 
 #define title "Stations List"
 
@@ -11,11 +12,16 @@ QStationsList::QStationsList(QWidget* parent, Qt::WindowFlags flags): QDockWidge
 
 void QStationsList::setStations(std::vector< PandoraStation > stations)
 {
-  QListWidget* stationList = new QListWidget(this);
+  QListWidget* stationList = new QListWidget();
   
+  stationList->setSortingEnabled(true);
+  //TODO: Make custom QLIstWidgetItem class to have custom sorting
+  //      QuickMixes and Genre Stations at top.
   for(std::vector<PandoraStation>::size_type i = 0; i != stations.size(); i++){
-    new QListWidgetItem(QString(stations[i].toString()), stationList);
+    stationList->addItem(new QListWidgetItem(stations[i].toString()));
   }
+  
+  this->setWidget(stationList);
 }
 
 

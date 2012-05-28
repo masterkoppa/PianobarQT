@@ -53,7 +53,7 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
     
     QUrl link = QUrl::fromEncoded(tmp[0].getAudioURL().toAscii());
     media->setCurrentSource(link);
-    media->play();
+    //media->play();
 }
 
 
