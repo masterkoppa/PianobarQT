@@ -1,7 +1,5 @@
 #include "Pianobar_QT_MainWindow.h"
-#include "QStationsList.h"
-#include <QLabel>
-#include <qgridlayout.h>
+
 
 Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QWidget* parent, Qt::WindowFlags flags): QMainWindow(parent, flags)
 {
@@ -28,10 +26,34 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    centralWidget->setLayout(test);
    setCentralWidget(centralWidget);
    
-   QStationsList* example = new QStationsList();
+   stationsDock = new QStationsList();
    
-   addDockWidget(Qt::LeftDockWidgetArea, example);
+   addDockWidget(Qt::LeftDockWidgetArea, stationsDock);
   
+}
+
+
+void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
+{
+    piano.PianoGetStations(&ph, &wh);
+    
+    std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
+    
+    stationsDock->setStations(stations);
+    
+    PandoraStation* station = new PandoraStation(*ph.stations->next);
+    
+    PianoStation_t tmpStation = station->toPianobarStation();
+    
+    PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, &tmpStation);
+    std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
+    
+    media = new Phonon::MediaObject(this);
+    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
+    
+    QUrl link = QUrl::fromEncoded(tmp[0].getAudioURL().toAscii());
+    media->setCurrentSource(link);
+    media->play();
 }
 
 

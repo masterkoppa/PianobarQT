@@ -52,48 +52,51 @@ Pianobar_QT::Pianobar_QT(QWidget* parent) : QWidget(parent)
     
 }
 void Pianobar_QT::logIn(){
+
     QString username = userName->text();
+    QString password = passwordField->text();
+    
+    if(username.isEmpty() || password.isEmpty()){
+       if(username.isEmpty()){
+	userName->setStyleSheet("background: red");
+       }else{
+	userName->setStyleSheet("background: white");
+       }
+       if(password.isEmpty()){
+	passwordField->setStyleSheet("background: red");
+       }else{
+	passwordField->setStyleSheet("background: white");
+       }
+       
+      return;
+    }
+        
+    piano.PianoInitialize(&ph, &wh);
+    
+    //Copy the data to avoid overwriting... dam you memory
+    char* user = strdup(username.toAscii().data());
+    char* pass = strdup(password.toAscii().data());
+        
+    if(!piano.PianoLogin(&ph, &wh, user, pass)){
+      //TODO: Tell the user in a nicer way that the login failed
+      userName->setStyleSheet("background: red");
+      passwordField->setStyleSheet("background: red");
+      return;
+    }
+    
+    free(user);
+    free(pass);
+    
     Pianobar_QT_MainWindow* test = new Pianobar_QT_MainWindow(username);
+    test->setHandlers(ph, wh);
     test->show();
     this->close();
-//     QString username = userName->text();
-//     QString password = passwordField->text();
-//     
-//     if(username.isEmpty() || password.isEmpty()){
-//        if(username.isEmpty()){
-// 	userName->setStyleSheet("background: red");
-//        }else{
-// 	userName->setStyleSheet("background: white");
-//        }
-//        if(password.isEmpty()){
-// 	passwordField->setStyleSheet("background: red");
-//        }else{
-// 	passwordField->setStyleSheet("background: white");
-//        }
-//        
-//       return;
-//     }
-//         
-//     piano.PianoInitialize(&ph, &wh);
-//     
-//     //Copy the data to avoid overwriting... dam you memory
-//     char* user = strdup(username.toAscii().data());
-//     char* pass = strdup(password.toAscii().data());
-//         
-//     if(!piano.PianoLogin(&ph, &wh, user, pass)){
-//       //TODO: Tell the user in a nicer way that the login failed
-//       userName->setStyleSheet("background: red");
-//       passwordField->setStyleSheet("background: red");
-//       return;
-//     }
-//     
-//     free(user);
-//     free(pass);
-//     
+    
 //     piano.PianoGetStations(&ph, &wh);
 //     
-//     
 //     std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
+//     
+//     
 //     
 //     selectedStation = new PandoraStation(*ph.stations->next);
 //     
@@ -124,7 +127,7 @@ void Pianobar_QT::logIn(){
 //     connect(media, SIGNAL(finished()), SLOT(onStop()));
 //     
 //     //Make sure that there are no double logins
-//     ok->disconnect(SIGNAL(clicked(bool)));
+    ok->disconnect(SIGNAL(clicked(bool)));
 }
 
 void Pianobar_QT::onUpdate()
