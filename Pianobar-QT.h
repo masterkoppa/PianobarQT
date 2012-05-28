@@ -8,6 +8,7 @@
 #include "pianosteps.h"
 #include "pandorastation.h"
 #include "pianohelper.h"
+#include "pianobar_qt_mainwindow.h"
 
 //Libpiano
 extern "C" {
@@ -21,23 +22,17 @@ extern "C" {
 #include <phonon/audiooutput.h>
 
 //QT
-#include <QFileDialog>
 #include <QtGui/QApplication>
-#include <QtGui/QMainWindow>
-#include <qtextedit.h>
 #include <QLabel>
 #include <QUrl>
-#include <QTimer>
 #include <qgridlayout.h>
 #include <QDesktopWidget>
-#include <qgraphicsitem.h>
 #include <QtCore/QObject>
 #include <QLineEdit>
 #include <QFont>
 #include <QPushButton>
 #include <QHBoxLayout>
-#include <QRegExp>
-#include <QRegExpValidator>
+
 
 
 
