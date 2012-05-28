@@ -2,7 +2,7 @@
 
 
 
-Pianobar_QT::Pianobar_QT() : QWidget()
+Pianobar_QT::Pianobar_QT(QWidget* parent) : QWidget(parent)
 {
 
     piano.PianoInitialize(&ph, &wh);
@@ -23,7 +23,7 @@ Pianobar_QT::Pianobar_QT() : QWidget()
 
     
     //Set the index to start at 0
-    playIndex = 2;
+    playIndex = 0;
     
     //Before we continue make sure that we have a playlist
     Q_ASSERT(playlist.size() > 0);
@@ -36,7 +36,20 @@ Pianobar_QT::Pianobar_QT() : QWidget()
     
     media->setTickInterval(1000);
    
-    label = new QLabel("00:00:00/00:00:00", this);
+    //label = new QLabel("00:00:00/00:00:00", this);
+    
+    //Layout manager
+    QGridLayout* layout = new QGridLayout(this);
+    
+    QLabel* userNameLabel = new QLabel("Username", this);
+    
+    layout->addWidget(userNameLabel, 0, 0);
+    
+    QLineEdit* userName = new QLineEdit(this);
+    
+    layout->addWidget(userName, 0, 1);
+    
+    setLayout(layout);
    
    
     connect(media, SIGNAL(tick(qint64)), SLOT(onUpdate()));
@@ -58,13 +71,18 @@ void Pianobar_QT::onUpdate()
    retString.append("/");
    retString.append(timeTotal);
    
-   label->setText(retString);
+   //label->setText(retString);
 }
 
 void Pianobar_QT::aboutToEnd()
 {
    if(playIndex < playlist.size()){
      playIndex++;
+     if(playIndex == playlist.size()){
+      std::cout << "Seems like we are finished here, lets get the next one" << std::endl;
+      
+      getMoreSongs();
+     }
      QUrl link = QUrl::fromEncoded(playlist[playIndex].getAudioURL().toAscii());
      media->setCurrentSource(Phonon::MediaSource(link));
      media->play();
@@ -73,11 +91,7 @@ void Pianobar_QT::aboutToEnd()
     std::cout << "End of playlist" << std::endl;
    }
    
-   if(playIndex == playlist.size()){
-    std::cout << "Seems like we are finished here, lets get the next one" << std::endl;
-    
-    getMoreSongs();
-   }
+   
 }
 
 void Pianobar_QT::onStop()

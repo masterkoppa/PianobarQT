@@ -32,6 +32,7 @@ extern "C" {
 #include <QDesktopWidget>
 #include <qgraphicsitem.h>
 #include <QtCore/QObject>
+#include <QLineEdit>
 
 
 
@@ -41,7 +42,7 @@ class Pianobar_QT : public QWidget
 {
 Q_OBJECT
 public:
-    Pianobar_QT();
+    Pianobar_QT(QWidget* parent = 0);
 
 private:
     QLabel* label;
