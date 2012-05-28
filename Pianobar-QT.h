@@ -27,6 +27,7 @@ public:
 private:
     QLabel* label;
     Phonon::MediaObject* media;
+    QString timeToString(long time_msecs);
     
 private slots:
     void onUpdate();

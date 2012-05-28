@@ -49,7 +49,8 @@ int main(int argc, char** argv)
     //Iterates through the playlist and prints it out
     std::cout << "Playlist: " << std::endl;
     for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
-      std::cout << playlist[i].toString() << std::endl;
+      QString song = playlist[i].toString();
+      std::cout << song.toStdString() << std::endl;
     }
     
     std::cout << "Goodbye!" << std::endl;
@@ -57,9 +58,9 @@ int main(int argc, char** argv)
     
     QApplication app(argc, argv);
     QApplication::setApplicationName("Phonon Tutorial 2");
-    //Pianobar_QT mw (playlist[0].getAudioURL());
-    //mw.resize(300, 300);
-    //mw.show();
-    //return app.exec();
+    Pianobar_QT mw (playlist[0].getAudioURL());
+    mw.resize(300, 300);
+    mw.show();
+    return app.exec();
     return 0;
 }

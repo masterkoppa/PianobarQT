@@ -33,24 +33,17 @@ char* PandoraSong::getTitle()
   return title;
 }
 
-char* PandoraSong::toString()
+QString PandoraSong::toString()
 {
+  QString retString ("");
   
-  char* ret;
-  //Alocate enough memory for the whole string, plus some extra in case of 
-  //problems
-  ret = (char* )malloc(sizeof(title) + sizeof(artist) + sizeof(album) + 20);
+  retString.append(artist);
+  retString.append(" - ");
+  retString.append(title);
+  retString.append(" - ");
+  retString.append(album);
   
-  //Copy the original string
-  strcpy(ret, artist);
-  
-  //Append these strings to the return
-  strcat(ret, " - ");
-  strcat(ret, title);
-  strcat(ret, " - ");
-  strcat(ret, album);
-  
-  return  ret;
+  return retString;
 }
 
 QString PandoraSong::getAudioURL()

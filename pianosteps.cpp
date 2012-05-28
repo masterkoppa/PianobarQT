@@ -126,6 +126,11 @@ void PianoSteps::PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* 
     }
     
     pianoRet = PianoResponse(pianoHandle, &request);
+    
+    if(request.responseData != NULL){
+      free(request.responseData);
+    }
+    PianoDestroyRequest(&request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
   std::cout << "Done getting stations" << std::endl;
@@ -180,6 +185,11 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
     }
     
     pianoRet = PianoResponse(pianoHandle, &request);
+    
+    if(request.responseData != NULL){
+      free(request.responseData);
+    }
+    PianoDestroyRequest(&request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
   std::cout << playlistReq.retPlaylist->audioUrl << std::endl;

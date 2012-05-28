@@ -35,7 +35,7 @@ public:
      * 
      * Artist - Title - Album
      */
-    char* toString();
+    QString toString();
     
     /**
      * Returns the song artist
