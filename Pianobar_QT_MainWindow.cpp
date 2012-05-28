@@ -1,4 +1,5 @@
 #include "Pianobar_QT_MainWindow.h"
+#include "QStationsList.h"
 #include <QLabel>
 #include <qgridlayout.h>
 
@@ -26,6 +27,10 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    centralWidget->setLayout(test);
    setCentralWidget(centralWidget);
+   
+   QStationsList* example = new QStationsList();
+   
+   addDockWidget(Qt::LeftDockWidgetArea, example);
   
 }
 
