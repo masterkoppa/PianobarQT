@@ -62,6 +62,7 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
 void Pianobar_QT_MainWindow::onNewStationSelect()
 {
   std::cout << "New Station" << std::endl;
+  std::cout << "Got : " << stationsDock->selectedStation->toString() << std::endl;
 }
 
 

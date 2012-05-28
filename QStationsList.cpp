@@ -40,6 +40,7 @@ void QStationsList::onNewStationSelect()
       
       if(selectedItem->text() == stations[i].toString()){
 	std::cout << "You selected: " << stations[i].toString() << std::endl;
+	this->selectedStation = &stations[i];
 	break;
       }
     }
