@@ -42,7 +42,6 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   
   //loginReq.user = "ajr2546@rit.edu";
   //loginReq.password = "passwordTest";
-  std::cout << "User: " << username << " Pass: " << password << std::endl;
   loginReq.user = username;
   loginReq.password = password;
   loginReq.step = 0;

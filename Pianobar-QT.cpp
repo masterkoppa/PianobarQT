@@ -69,18 +69,17 @@ void Pianobar_QT::logIn(){
        
       return;
     }
-    
-    std::cout << username.toStdString() << " " << password.toStdString() << std::endl;
-    
+        
     piano.PianoInitialize(&ph, &wh);
     
     //Copy the data to avoid overwriting... dam you memory
     char* user = strdup(username.toAscii().data());
     char* pass = strdup(password.toAscii().data());
-    
-    std::cout << user << " " << pass << std::endl;
-    
+        
     if(!piano.PianoLogin(&ph, &wh, user, pass)){
+      //TODO: Tell the user in a nicer way that the login failed
+      userName->setStyleSheet("background: red");
+      passwordField->setStyleSheet("background: red");
       return;
     }
     
