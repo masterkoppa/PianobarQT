@@ -35,9 +35,6 @@ extern "C" {
 
 
 
-
-
-
 class Pianobar_QT : public QWidget
 {
 Q_OBJECT
@@ -63,14 +60,6 @@ private:
     
     
 private slots:
-    /**
-     * Function that is to be called for every tick of the player. This
-     * method udpates the timer shown on screen and any information that
-     * can change every second while there is music playing.
-     */
-    void onUpdate();
-    void aboutToEnd();
-    void onStop();
     void logIn();
     void cancelPressed();
 };
