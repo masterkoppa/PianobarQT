@@ -8,7 +8,6 @@
 #include "pianosteps.h"
 #include "pandorastation.h"
 #include "pianohelper.h"
-#include "Pianobar-QT_MainWindow.h"
 
 //Libpiano
 extern "C" {
@@ -35,6 +34,9 @@ extern "C" {
 
 
 
+
+
+
 class Pianobar_QT : public QWidget
 {
 Q_OBJECT
@@ -52,6 +54,7 @@ private:
     WaitressHandle_t wh;
     PianoSteps piano;
     PianoHelper helper;
+    PandoraStation* selectedStation;
     QLineEdit* userName;
     QLineEdit* passwordField;
     QPushButton* ok;
@@ -60,6 +63,14 @@ private:
     
     
 private slots:
+    /**
+     * Function that is to be called for every tick of the player. This
+     * method udpates the timer shown on screen and any information that
+     * can change every second while there is music playing.
+     */
+    void onUpdate();
+    void aboutToEnd();
+    void onStop();
     void logIn();
     void cancelPressed();
 };

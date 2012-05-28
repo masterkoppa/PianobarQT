@@ -25,6 +25,8 @@ private:
   float fileGain;
   PianoSongRating_t rating;
   PianoAudioFormat_t format;
+  bool songDownloaded = false;
+  bool albumArtDownloaded = false;
 public:
     PandoraSong(PianoSong_t song);
     /**
