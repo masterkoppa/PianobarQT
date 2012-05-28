@@ -22,6 +22,7 @@ class Pianobar_QT : public QMainWindow
 Q_OBJECT
 public:
     Pianobar_QT();
+    Pianobar_QT(QString url);
 };
 
 #endif // Pianobar_QT_H

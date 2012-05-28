@@ -5,8 +5,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <curl/curl.h>
 #include <string>
+#include <QString>
 
 class PandoraSong
 {
@@ -52,37 +52,18 @@ public:
      */
     char* getAlbum();
     
-    /**
-     * Downloads the album art into a temporary folder and returns it's
-     * location.
-     */
-    char* getAlbumArt();
     
     /**
-     * Downloads the song into a temporary folder and returns it's location.
+     * Returns the audio url in a QString that is usable by the phonon
+     * to grab.
      */
-    char* getSong();
+    QString getAudioURL();
     
     /**
-     * Clears all temporary files and frees up the memory by this object
-     * TODO In the application make this optional.
+     * Returns the url to the album art to be displayed for this song. This
+     * is returned in a QString to simplify the program.
      */
-    void destroySong();
-private:
-  void downloadSong(char* url, char* destination);
-  CURLcode curl_read(char* url, std::ostream& os, long int timeout);
-  static size_t data_write(void* buf, size_t size, size_t nmemb, void* userp);
-  /**
-   * Helper funtion that returns the path where the album art should be
-   * stored or is currently stored in the case of deletion.
-   */
-  char* generateAlbumPath();
-  
-  /**
-   * Helper function that returns the path where the song should be
-   * stored or is currently stored in the case of deletion.
-   */
-    char* generateSongPath();
+    QString getAlbumArtURL();
 };
 
 #endif // PANDORASONG_H

@@ -11,13 +11,12 @@ extern "C" {
 
 int main(int argc, char** argv)
 {    
-//     QApplication app(argc, argv);
-//     QApplication::setApplicationName("Phonon Tutorial 2");
+    QApplication app(argc, argv);
+    QApplication::setApplicationName("Phonon Tutorial 2");
 //     Pianobar_QT mw;
 //     mw.show();
 //     return app.exec();
 
-    curl_global_init(CURL_GLOBAL_ALL);
     PianoHandle_t ph;
     
     WaitressHandle_t wh;
@@ -25,7 +24,6 @@ int main(int argc, char** argv)
     PianoSteps piano;
     
     piano.PianoInitialize(&ph, &wh);
-    
     
     std::cout << "Calling Login" << std::endl;
     
@@ -52,14 +50,15 @@ int main(int argc, char** argv)
     std::cout << "Playlist: " << std::endl;
     for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
       std::cout << playlist[i].toString() << std::endl;
-      //std::cout << playlist[i].getAlbumArt() << std::endl;
-      sleep(2);
-      std::cout << playlist[i].getSong() << std::endl;
     }
     
     std::cout << "Goodbye!" << std::endl;
     
-    curl_global_cleanup();
     
-    return 0;
+//     QApplication app(argc, argv);
+//     QApplication::setApplicationName("Phonon Tutorial 2");
+    Pianobar_QT mw (playlist[0].getAudioURL());
+    mw.show();
+    return app.exec();
+//     return 0;
 }
