@@ -11,9 +11,9 @@ extern "C" {
 
 int main(int argc, char** argv)
 {    
-    QApplication app(argc, argv);
-    QApplication::setApplicationName("Phonon Tutorial 2");
+//     QApplication app(argc, argv);
 //     Pianobar_QT mw;
+//     mw.resize(300, 300);
 //     mw.show();
 //     return app.exec();
 
@@ -55,10 +55,11 @@ int main(int argc, char** argv)
     std::cout << "Goodbye!" << std::endl;
     
     
-//     QApplication app(argc, argv);
-//     QApplication::setApplicationName("Phonon Tutorial 2");
-    Pianobar_QT mw (playlist[0].getAudioURL());
-    mw.show();
-    return app.exec();
-//     return 0;
+    QApplication app(argc, argv);
+    QApplication::setApplicationName("Phonon Tutorial 2");
+    //Pianobar_QT mw (playlist[0].getAudioURL());
+    //mw.resize(300, 300);
+    //mw.show();
+    //return app.exec();
+    return 0;
 }

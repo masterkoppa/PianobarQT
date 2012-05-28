@@ -11,18 +11,26 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 #include <qtextedit.h>
+#include <QLabel>
 #include <QUrl>
 
 #include <iostream>
 
 
 
-class Pianobar_QT : public QMainWindow
+class Pianobar_QT : public QWidget
 {
 Q_OBJECT
 public:
     Pianobar_QT();
     Pianobar_QT(QString url);
+private:
+    QLabel* label;
+    Phonon::MediaObject* media;
+    
+private slots:
+    void onUpdate();
+    void aboutToEnd();
 };
 
 #endif // Pianobar_QT_H
