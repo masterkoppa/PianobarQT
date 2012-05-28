@@ -41,13 +41,32 @@ Pianobar_QT::Pianobar_QT(QWidget* parent) : QWidget(parent)
     //Layout manager
     QGridLayout* layout = new QGridLayout(this);
     
+    QLabel* title = new QLabel("Welcome to PianobarQT", this);
+    QFont titleFont;
+    titleFont.setPointSize(20);
+    titleFont.setUnderline(true);
+    titleFont.setBold(true);
+    
+    title->setFont(titleFont);
+    
+    layout->addWidget(title, 0, 0, 1, 2);
+    
     QLabel* userNameLabel = new QLabel("Username", this);
     
-    layout->addWidget(userNameLabel, 0, 0);
+    layout->addWidget(userNameLabel, 1, 0);
     
     QLineEdit* userName = new QLineEdit(this);
     
-    layout->addWidget(userName, 0, 1);
+    layout->addWidget(userName, 1, 1);
+    
+    QLabel* passwordLabel = new QLabel("Password", this);
+    
+    layout->addWidget(passwordLabel, 2, 0);
+    
+    QLineEdit* passwordField = new QLineEdit(this);
+    passwordField->setEchoMode(QLineEdit::Password);
+    
+    layout->addWidget(passwordField, 2, 1);
     
     setLayout(layout);
    
@@ -90,7 +109,6 @@ void Pianobar_QT::aboutToEnd()
    }else{
     std::cout << "End of playlist" << std::endl;
    }
-   
    
 }
 

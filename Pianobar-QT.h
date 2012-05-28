@@ -33,6 +33,7 @@ extern "C" {
 #include <qgraphicsitem.h>
 #include <QtCore/QObject>
 #include <QLineEdit>
+#include <QFont>
 
 
 
