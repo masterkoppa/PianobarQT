@@ -69,7 +69,7 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    
    media = new Phonon::MediaObject(this);
-   media->setTickInterval(2000);
+   media->setTickInterval(1000);
    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
    connect(media, SIGNAL(tick(qint64)), SLOT(onEachTick()));
 }
