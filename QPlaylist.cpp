@@ -30,6 +30,12 @@ void QPlaylist::pushSong(QString songName)
   playlist->addItem(new QListWidgetItem(songName));
 }
 
+void QPlaylist::setSongSelected(int row)
+{
+  playlist->setCurrentRow(row);
+}
+
+
 
 
 void QPlaylist::onSongChange()

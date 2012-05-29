@@ -11,6 +11,7 @@ public:
     QPlaylist(QWidget* parent = 0, Qt::WindowFlags flags = 0);
     void pushSong(QString songName);
     void clearPlaylist();
+    void setSongSelected(int row);
     
 private:
     QListWidget* playlist;

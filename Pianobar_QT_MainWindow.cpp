@@ -72,6 +72,7 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    media->setTickInterval(1000);
    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
    connect(media, SIGNAL(tick(qint64)), SLOT(onEachTick()));
+   connect(media, SIGNAL(finished()), SLOT(onEndOfSong()));
 }
 
 
@@ -94,22 +95,66 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   
   playlistDock->clearPlaylist();
   
-  PandoraStation* station = stationsDock->selectedStation;
+  nextSong();
   
-  PianoStation_t tmpStation = station->toPianobarStation();
-    
-  PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, &tmpStation);
-  std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
-
-  QUrl link = QUrl::fromEncoded(tmp[0].getAudioURL().toAscii());
-  media->setCurrentSource(link);
-  media->play();
   
-  playlistDock->pushSong(tmp[0].toShortString());
   
   std::cout << "Starting song" << std::endl;
   
 }
+
+void Pianobar_QT_MainWindow::getPlaylist()
+{
+  //Get the selected station from the dock
+  PandoraStation* station = stationsDock->selectedStation;
+  
+  //For my own sanity, make sure it's actually something
+  Q_ASSERT(station != NULL);
+  
+  //Make it into something pianobar can understand
+  PianoStation_t tmpStation = station->toPianobarStation();
+  
+  //Get the linked list for this playlist
+  PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, &tmpStation);
+  
+  //If it's empty fill it
+  if(playlist.empty()){
+    playlistIndex = 0;
+    playlist = helper.parsePlaylist(song);
+  }else{
+    //Since its not empty we will append to the end of the list
+    std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
+    playlist.insert(playlist.end(), tmp.begin(), tmp.end());
+  }
+  for(std::vector<PandoraSong>::size_type i = playlistIndex; i != playlist.size(); i++){
+    playlistDock->pushSong(playlist[i].toShortString());
+  }
+  
+}
+
+void Pianobar_QT_MainWindow::nextSong()
+{
+  if(playlistIndex-1 == playlist.size()){
+    getPlaylist();//If we are about to finish, get a new one
+  }
+  
+  if(playlist.empty()){
+    getPlaylist();//Get the new playlist since we have none
+    playlistIndex--;//Make sure we start at 0
+  }
+  
+  playlistIndex++;
+  
+  playlistDock->setSongSelected(playlistIndex);
+  
+  QUrl link = QUrl::fromEncoded(playlist[playlistIndex].getAudioURL().toAscii());
+  media->setCurrentSource(link);
+  media->play();
+  
+  
+}
+
+
 
 void Pianobar_QT_MainWindow::onEachTick()
 {
@@ -127,6 +172,20 @@ void Pianobar_QT_MainWindow::onEachTick()
       
    timeLabel->setText(retString);
 }
+
+void Pianobar_QT_MainWindow::onEndOfSong()
+{
+  if(media->errorType() == Phonon::FatalError){
+    std::cout << "Phonon Fatal Error happened" << std::endl;
+  }else if(media->errorType() == Phonon::NormalError){
+    std::cout << "Phonon Normal Error, trying to continue" << std::endl;
+  }
+  //Call the next song when we are finished
+  nextSong();
+  
+  std::cout << "Changing Song" << std::endl;
+}
+
 
 
 #include "Pianobar_QT_MainWindow.moc"

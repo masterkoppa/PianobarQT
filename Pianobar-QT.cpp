@@ -151,7 +151,6 @@ void Pianobar_QT::aboutToEnd()
    }else{
     std::cout << "End of playlist" << std::endl;
    }
-   
 }
 
 void Pianobar_QT::onStop()

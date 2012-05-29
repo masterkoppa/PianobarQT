@@ -27,6 +27,7 @@ public:
 private:
     PianoSteps piano;
     PianoHelper helper;
+    std::vector<PandoraSong> playlist;
     
     QStationsList* stationsDock;
     QPlaylist* playlistDock;
@@ -37,9 +38,15 @@ private:
     PianoHandle_t ph;
     WaitressHandle_t wh;
     
+    int playlistIndex;
+    
+    void getPlaylist();
+    void nextSong();
+    
 private slots:
     void onNewStationSelect();
     void onEachTick();
+    void onEndOfSong();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H
