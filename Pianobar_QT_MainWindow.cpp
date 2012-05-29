@@ -92,6 +92,8 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
 {
   std::cout << "New Station" << std::endl;
   
+  playlistDock->clearPlaylist();
+  
   PandoraStation* station = stationsDock->selectedStation;
   
   PianoStation_t tmpStation = station->toPianobarStation();
@@ -102,6 +104,8 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   QUrl link = QUrl::fromEncoded(tmp[0].getAudioURL().toAscii());
   media->setCurrentSource(link);
   media->play();
+  
+  playlistDock->pushSong(QString(tmp[0].toString()));
   
   std::cout << "Starting song" << std::endl;
   

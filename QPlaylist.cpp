@@ -19,6 +19,18 @@ QPlaylist::QPlaylist(QWidget* parent, Qt::WindowFlags flags): QDockWidget(title,
   this->setWidget(playlist);
 }
 
+void QPlaylist::clearPlaylist()
+{
+  playlist->clear();
+}
+
+
+void QPlaylist::pushSong(QString songName)
+{
+  playlist->addItem(new QListWidgetItem(songName));
+}
+
+
 
 void QPlaylist::onSongChange()
 {
