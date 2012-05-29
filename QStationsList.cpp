@@ -34,7 +34,7 @@ void QStationsList::setStations(std::vector< PandoraStation > stations)
 void QStationsList::onNewStationSelect()
 {
   if(stationList->currentRow() == -1){
-    //NO TIME SELECTED, sanity check
+    //NO ITEM SELECTED, sanity check
     std::cout << "No station selected" << std::endl;
   }else{
     for(std::vector<PandoraStation>::size_type i = 0; i != stations.size(); i++){
