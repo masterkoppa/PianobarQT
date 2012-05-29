@@ -2,12 +2,16 @@
 #define QPLAYLIST_H
 
 #include <QDockWidget>
+#include <QListWidget>
 
 class QPlaylist: public QDockWidget
 {
   Q_OBJECT
 public:
     QPlaylist(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    
+private:
+    QListWidget* playlist;
 private slots:
     void onSongChange();
 };
