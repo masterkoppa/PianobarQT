@@ -7,6 +7,7 @@
 #include "pianohelper.h"
 #include "pianosteps.h"
 #include "QStationsList.h"
+#include "QPlaylist.h"
 #include <QLabel>
 #include <qgridlayout.h>
 
@@ -28,6 +29,7 @@ private:
     PianoHelper helper;
     
     QStationsList* stationsDock;
+    QPlaylist* playlistDock;
     Phonon::MediaObject* media;
     
     QLabel* timeLabel;

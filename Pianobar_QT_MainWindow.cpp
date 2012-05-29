@@ -62,14 +62,14 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    addDockWidget(Qt::LeftDockWidgetArea, stationsDock);
    
-   QPlaylist* testDock = new QPlaylist();
+   playlistDock = new QPlaylist();
    
    
-   addDockWidget(Qt::RightDockWidgetArea, testDock);
+   addDockWidget(Qt::RightDockWidgetArea, playlistDock);
    
    
    media = new Phonon::MediaObject(this);
-   media->setTickInterval(1000);
+   media->setTickInterval(2000);
    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
    connect(media, SIGNAL(tick(qint64)), SLOT(onEachTick()));
 }
@@ -85,7 +85,7 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
     std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
     
     stationsDock->setStations(stations);
-    connect(stationsDock->stationList, SIGNAL(currentRowChanged(int)), SLOT(onNewStationSelect()));
+    connect(stationsDock->stationList, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onNewStationSelect()));
 }
 
 void Pianobar_QT_MainWindow::onNewStationSelect()
@@ -101,7 +101,7 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
 
   QUrl link = QUrl::fromEncoded(tmp[0].getAudioURL().toAscii());
   media->setCurrentSource(link);
-  //media->play();
+  media->play();
   
   std::cout << "Starting song" << std::endl;
   

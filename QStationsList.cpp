@@ -28,7 +28,7 @@ void QStationsList::setStations(std::vector< PandoraStation > stations)
   
   this->setWidget(stationList);
     
-  connect(stationList, SIGNAL(currentRowChanged(int)), SLOT(onNewStationSelect()));
+  connect(stationList, SIGNAL(itemActivated(QListWidgetItem*)), SLOT(onNewStationSelect()));
 }
 
 void QStationsList::onNewStationSelect()
