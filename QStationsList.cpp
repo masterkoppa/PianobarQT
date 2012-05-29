@@ -1,6 +1,7 @@
 #include "QStationsList.h"
 #include <QListWidget>
 #include <qlayout.h>
+#include <QDockWidget>
 
 #define title "Stations List"
 
@@ -8,6 +9,7 @@
 QStationsList::QStationsList(QWidget* parent, Qt::WindowFlags flags): QDockWidget(title, parent, flags)
 {
   setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+  setFeatures(QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetMovable);
 }
 
 void QStationsList::setStations(std::vector< PandoraStation > stations)
@@ -26,6 +28,8 @@ void QStationsList::setStations(std::vector< PandoraStation > stations)
   
   this->setWidget(stationList);
   
+  stationList->setCurrentRow(-1);
+  
   connect(stationList, SIGNAL(currentRowChanged(int)), SLOT(onNewStationSelect()));
 }
 
@@ -39,7 +43,7 @@ void QStationsList::onNewStationSelect()
       QListWidgetItem* selectedItem = stationList->currentItem();
       
       if(selectedItem->text() == stations[i].toString()){
-	std::cout << "You selected: " << stations[i].toString() << std::endl;
+	//std::cout << "You selected: " << stations[i].toString() << std::endl;
 	this->selectedStation = &stations[i];
 	break;
       }

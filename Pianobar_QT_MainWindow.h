@@ -30,8 +30,14 @@ private:
     QStationsList* stationsDock;
     Phonon::MediaObject* media;
     
+    QLabel* timeLabel;
+    
+    PianoHandle_t ph;
+    WaitressHandle_t wh;
+    
 private slots:
     void onNewStationSelect();
+    void onEachTick();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H
