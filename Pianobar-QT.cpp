@@ -49,6 +49,7 @@ Pianobar_QT::Pianobar_QT(QWidget* parent) : QWidget(parent)
     
     connect(cancel, SIGNAL(clicked(bool)), SLOT(cancelPressed()));
     connect(ok, SIGNAL(clicked(bool)), SLOT(logIn()));
+    connect(passwordField, SIGNAL(returnPressed()), SLOT(logIn()));
     
 }
 void Pianobar_QT::logIn(){
@@ -131,23 +132,7 @@ void Pianobar_QT::logIn(){
 //     
 //     //Make sure that there are no double logins
     ok->disconnect(SIGNAL(clicked(bool)));
-}
-
-void Pianobar_QT::onUpdate()
-{
-   
-   qint64 mtime = media->currentTime();
-   
-   QString timeFormated = timeToString(mtime);
-   
-   QString timeTotal = timeToString(media->totalTime());
-   
-   QString retString = timeFormated;
-   
-   retString.append("/");
-   retString.append(timeTotal);
-   
-   //label->setText(retString);
+    passwordField->disconnect(SIGNAL(returnPressed()));
 }
 
 void Pianobar_QT::aboutToEnd()
@@ -191,32 +176,6 @@ void Pianobar_QT::onStop()
 }
 
 
-QString Pianobar_QT::timeToString(long time_msecs)
-{
-  long stime = time_msecs/1000;
-  
-  int hours = stime / 600;
-  int minutes = (stime / 60) % 60;
-  int seconds = stime % 60;
-  QString retString ("");
-  //TODO: If deemed necessary, append a 0 if hours is less than 10.
-  if(hours != 0){
-    retString = QString::number(hours);
-    retString.append(":");
-  }
-  
-  if(minutes < 10){
-    retString.append("0");
-  }
-  retString.append(QString::number(minutes));
-  retString.append(":");
-  if(seconds < 10){
-    retString.append("0");
-  }
-  retString.append(QString::number(seconds));
-  
-  return retString;
-}
 void Pianobar_QT::getMoreSongs()
 {
   PianoStation_t station = selectedStation->toPianobarStation();

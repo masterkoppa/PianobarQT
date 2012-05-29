@@ -46,7 +46,6 @@ public:
 private:
     QLabel* label;
     Phonon::MediaObject* media;
-    QString timeToString(long time_msecs);
     std::vector<PandoraSong> playlist;
     int playIndex;
     void getMoreSongs();
@@ -63,12 +62,6 @@ private:
     
     
 private slots:
-    /**
-     * Function that is to be called for every tick of the player. This
-     * method udpates the timer shown on screen and any information that
-     * can change every second while there is music playing.
-     */
-    void onUpdate();
     void aboutToEnd();
     void onStop();
     void logIn();
