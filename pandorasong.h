@@ -38,6 +38,14 @@ public:
     QString toString();
     
     /**
+     * Returns the shorter string representation of this song in the following
+     * format:
+     * 
+     * Artist - Title
+     */
+    QString toShortString();
+    
+    /**
      * Returns the song artist
      */
     char* getArtist();

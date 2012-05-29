@@ -46,6 +46,17 @@ QString PandoraSong::toString()
   return retString;
 }
 
+QString PandoraSong::toShortString()
+{
+  QString retString ("");
+  
+  retString.append(artist);
+  retString.append(" - ");
+  retString.append(title);
+  
+  return retString;
+}
+
 QString PandoraSong::getAudioURL()
 {
   QString* AudioUrl = new QString(this->audioUrl);

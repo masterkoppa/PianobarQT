@@ -105,7 +105,7 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   media->setCurrentSource(link);
   media->play();
   
-  playlistDock->pushSong(QString(tmp[0].toString()));
+  playlistDock->pushSong(tmp[0].toShortString());
   
   std::cout << "Starting song" << std::endl;
   
