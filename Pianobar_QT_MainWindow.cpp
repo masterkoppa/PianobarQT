@@ -95,7 +95,12 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   
   playlistDock->clearPlaylist();
   
-  playlist.clear();
+  //If there is something there already
+  if(!playlist.empty()){
+    
+    playlist.clear();
+  }
+  
   
   nextSong();
 

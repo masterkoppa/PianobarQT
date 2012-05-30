@@ -37,6 +37,8 @@ std::vector< PandoraSong > PianoHelper::parsePlaylist(PianoSong_t* playlist)
     playlist = playlist->next;
   }
   
+  free(playlist);//Destroy the old playlist object
+  
   return ret;
 }
 
