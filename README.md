@@ -16,8 +16,11 @@ What is working:
   * Album
   * All Stations
   * All the songs in the playlist(4 by for from pandora)  
+
+
 Screenshot:
-[Current State of the App](https://dl.dropbox.com/u/784245/PianobarQT_Screenshot5.png)
+==========
+![Current State of the App](https://dl.dropbox.com/u/784245/PianobarQT_Screenshot5.png)
 
 
 TODO: Add build instructions
