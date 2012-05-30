@@ -135,66 +135,6 @@ void Pianobar_QT::logIn(){
     passwordField->disconnect(SIGNAL(returnPressed()));
 }
 
-void Pianobar_QT::aboutToEnd()
-{
-   if(playIndex < playlist.size()){
-     playIndex++;
-     if(playIndex == playlist.size()){
-      std::cout << "Seems like we are finished here, lets get the next one" << std::endl;
-      
-      getMoreSongs();
-     }
-     QUrl link = QUrl::fromEncoded(playlist[playIndex].getAudioURL().toAscii());
-     media->setCurrentSource(Phonon::MediaSource(link));
-     media->play();
-     std::cout << "Playing: " << playlist[playIndex].getTitle() << std::endl;
-   }else{
-    std::cout << "End of playlist" << std::endl;
-   }
-}
-
-void Pianobar_QT::onStop()
-{
-  std::cout << "End of playlist, done" << std::endl;
-  if(media->queue().size() > 0){
-    std::cout << "I shouldn't be stopping" << std::endl;
-    media->play();
-    
-    switch(media->state()){
-      case Phonon::ErrorState:
-	std::cout << "Error State" << std::endl;
-	break;
-      case Phonon::PlayingState:
-	std::cout << "Playing State" << std::endl;
-	break;
-      default:
-	std::cout << "Other State" << std::endl;
-	break;
-    }
-  }
-}
-
-
-void Pianobar_QT::getMoreSongs()
-{
-  PianoStation_t station = selectedStation->toPianobarStation();
-    
-  PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, &station);
-  if(playlist.empty()){
-    playlist = helper.parsePlaylist(song);
-  }else{
-    std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
-    playlist.insert(playlist.end(), tmp.begin(), tmp.end());
-  }
-  
-  //Iterates through the playlist and prints it out
-  std::cout << "Playlist: " << std::endl;
-  for(std::vector<PandoraSong>::size_type i = 0; i != playlist.size(); i++){
-    QString song = playlist[i].toString();
-    std::cout << song.toStdString() << std::endl;
-  }
-}
-
 void Pianobar_QT::cancelPressed()
 {
   //We are out of here

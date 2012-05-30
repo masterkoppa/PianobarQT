@@ -1,6 +1,5 @@
 #include "Pianobar_QT_MainWindow.h"
-#include <QListWidget>
-#include "QPlaylist.h"
+
 
 /**
  * Converts the time given in milliseconds to a qstring
@@ -51,8 +50,10 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    QGridLayout* test = new QGridLayout(centralWidget);
    
    timeLabel = new QLabel("00:00:00:/00:00:00");
+   albumArt = new QLabel("Album Art");
    
-   test->addWidget(timeLabel, 0, 0);
+   test->addWidget(albumArt, 0, 0);
+   test->addWidget(timeLabel, 1, 0);
    
    centralWidget->setLayout(test);
    setCentralWidget(centralWidget);
@@ -61,6 +62,8 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    stationsDock = new QStationsList();
    
    addDockWidget(Qt::LeftDockWidgetArea, stationsDock);
+   
+   //playlist = new std::vector<PandoraSong>();
    
    playlistDock = new QPlaylist();
    
@@ -101,7 +104,7 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
     playlist.clear();
   }
   
-  
+  playlistIndex = 0;
   nextSong();
 
   std::cout << "Starting song" << std::endl;
@@ -138,6 +141,7 @@ void Pianobar_QT_MainWindow::getPlaylist()
     std::cout << "Re-filling playlist" << std::endl;
     std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
     playlist.insert(playlist.end(), tmp.begin(), tmp.end());
+    tmp.clear();
     
     //Pushes the NEW songs to the playlist dock
     for(std::vector<PandoraSong>::size_type i = playlistIndex+2; i != playlist.size(); i++){
@@ -165,11 +169,28 @@ void Pianobar_QT_MainWindow::nextSong()
   
   playlistDock->setSongSelected(playlistIndex);
   
-  QUrl link = QUrl::fromEncoded(playlist[playlistIndex].getAudioURL().toAscii());
+  QString url = playlist[playlistIndex].getAudioURL();
+  
+  QUrl link = QUrl::fromEncoded(url.toAscii());
+  media->clear();
   media->setCurrentSource(link);
   media->play();
   
+  //Set the album art
   
+  QString albumArtUrl = playlist[playlistIndex].getAlbumArtURL();
+  
+  QUrl albumArtLink = QUrl::fromEncoded(albumArtUrl.toAscii());
+  
+  QBuffer* imageBuffer = new QBuffer(&imageData);
+  QHttp* http = new QHttp(this);
+  http->setHost(albumArtLink.host());
+  
+  std::cout << "Album Art URL:" << albumArtUrl.toStdString() << std::endl;
+  
+  request = http->get(albumArtLink.path(), imageBuffer);
+  
+  connect(http, SIGNAL(requestFinished(int,bool)), SLOT(albumDownloaded(int,bool)));
 }
 
 
@@ -204,6 +225,33 @@ void Pianobar_QT_MainWindow::onEndOfSong()
   std::cout << "Changing Song" << std::endl;
 }
 
+void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
+{
+  
+  if(request == id){
+    if(err){
+      std::cout << "ERROR" << std::endl;
+    }else{
+      std::cout << "Downloaded Image" << std::endl;
+    }
+    std::cout << "Found my request" << std::endl;
+    
+    QImage image = QImage::fromData(imageData);
+  
+    
+    albumArt->setPixmap(QPixmap::fromImage(image));
+    albumArt->resize(500,500);
+    
+//     QPicture* picture = new QPicture();
+//     
+//     picture->load(imageData);
+    
+//     albumArt->setPicture(*picture);
+    
+    Q_ASSERT(albumArt->pixmap() != 0);
+
+  }
+}
 
 
 #include "Pianobar_QT_MainWindow.moc"

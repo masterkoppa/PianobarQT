@@ -62,8 +62,6 @@ private:
     
     
 private slots:
-    void aboutToEnd();
-    void onStop();
     void logIn();
     void cancelPressed();
 };

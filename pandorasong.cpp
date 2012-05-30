@@ -64,6 +64,14 @@ QString PandoraSong::getAudioURL()
   return *AudioUrl;
 }
 
+QString PandoraSong::getAlbumArtURL()
+{
+  QString* AlbumArtURL = new QString(this->coverArt);
+  
+  return *AlbumArtURL;
+}
+
+
 
 
 

@@ -10,6 +10,12 @@
 #include "QPlaylist.h"
 #include <QLabel>
 #include <qgridlayout.h>
+#include <QListWidget>
+#include "QPlaylist.h"
+#include <QHttpHeader>
+#include <QHttp>
+#include <QBuffer>
+#include <QPicture>
 
 
 //Phonon
@@ -34,6 +40,8 @@ private:
     Phonon::MediaObject* media;
     
     QLabel* timeLabel;
+    QLabel* albumArt;
+    QByteArray imageData;
     
     PianoHandle_t ph;
     WaitressHandle_t wh;
@@ -42,11 +50,13 @@ private:
     
     void getPlaylist();
     void nextSong();
+    int request;
     
 private slots:
     void onNewStationSelect();
     void onEachTick();
     void onEndOfSong();
+    void albumDownloaded(int id, bool err);
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H
