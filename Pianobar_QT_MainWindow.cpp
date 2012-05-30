@@ -63,7 +63,7 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    infoLayout->addWidget(artist);
    infoLayout->addWidget(album);
    
-   test->addWidget(albumArt, 0, 0);
+   test->addWidget(albumArt, 0, 0, Qt::AlignCenter);
    test->addLayout(infoLayout, 1, 0, Qt::AlignCenter);
    test->addWidget(timeLabel, 2, 0, Qt::AlignCenter);
    
