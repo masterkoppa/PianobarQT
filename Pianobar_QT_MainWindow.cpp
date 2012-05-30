@@ -135,7 +135,7 @@ void Pianobar_QT_MainWindow::getPlaylist()
     playlist.insert(playlist.end(), tmp.begin(), tmp.end());
     
     //Pushes the NEW songs to the playlist dock
-    for(std::vector<PandoraSong>::size_type i = playlistIndex+1; i != playlist.size(); i++){
+    for(std::vector<PandoraSong>::size_type i = playlistIndex+2; i != playlist.size(); i++){
       playlistDock->pushSong(playlist[i].toShortString());
     }
   }
@@ -145,7 +145,7 @@ void Pianobar_QT_MainWindow::getPlaylist()
 
 void Pianobar_QT_MainWindow::nextSong()
 {
-  if(playlistIndex+1 == playlist.size()){
+  if(playlistIndex+2 == playlist.size()){
     getPlaylist();//If we are about to finish, get a new one
   }
   
