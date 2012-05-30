@@ -1,4 +1,5 @@
 #include "Pianobar_QT_MainWindow.h"
+#include <QHBoxLayout>
 
 
 /**
@@ -38,7 +39,7 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QWidget* parent, Qt::WindowFlags 
 
 Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
 {
-  resize(500, 500);
+  resize(800, 800);
   QString title ("");
   title.append("Pianobar QT: ");
   title.append(username);
@@ -52,8 +53,20 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    timeLabel = new QLabel("00:00:00:/00:00:00");
    albumArt = new QLabel("Album Art");
    
+   QVBoxLayout *infoLayout = new QVBoxLayout();
+   
+   songName = new QLabel("Title: ");
+   artist = new QLabel("Artist: ");
+   album = new QLabel("Album: ");
+   
+   infoLayout->addWidget(songName);
+   infoLayout->addWidget(artist);
+   infoLayout->addWidget(album);
+   
    test->addWidget(albumArt, 0, 0);
-   test->addWidget(timeLabel, 1, 0);
+   test->addLayout(infoLayout, 1, 0, Qt::AlignCenter);
+   test->addWidget(timeLabel, 2, 0, Qt::AlignCenter);
+   
    
    centralWidget->setLayout(test);
    setCentralWidget(centralWidget);
@@ -74,6 +87,11 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    media = new Phonon::MediaObject(this);
    media->setTickInterval(1000);
    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
+   
+   Phonon::SeekSlider* seeker = new Phonon::SeekSlider(media, this);
+   
+   test->addWidget(seeker, 3, 0, Qt::AlignCenter);
+   
    connect(media, SIGNAL(tick(qint64)), SLOT(onEachTick()));
    connect(media, SIGNAL(finished()), SLOT(onEndOfSong()));
 }
@@ -191,6 +209,21 @@ void Pianobar_QT_MainWindow::nextSong()
   request = http->get(albumArtLink.path(), imageBuffer);
   
   connect(http, SIGNAL(requestFinished(int,bool)), SLOT(albumDownloaded(int,bool)));
+  
+  //Set the info
+    
+  QString songNameText ("Artist: ");
+  songNameText.append(QString(playlist[playlistIndex].getTitle()));
+  
+  QString albumText ("Album: ");
+  albumText.append(QString(playlist[playlistIndex].getAlbum()));
+  
+  QString artistText ("Artist: ");
+  artistText.append(QString(playlist[playlistIndex].getArtist()));
+  
+  songName->setText(songNameText);
+  album->setText(albumText);
+  artist->setText(artistText);
 }
 
 

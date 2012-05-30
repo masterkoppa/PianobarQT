@@ -21,6 +21,7 @@
 //Phonon
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
+#include <Phonon/SeekSlider>
 
 class Pianobar_QT_MainWindow : public QMainWindow
 {
@@ -42,6 +43,9 @@ private:
     QLabel* timeLabel;
     QLabel* albumArt;
     QByteArray imageData;
+    QLabel* songName;
+    QLabel* artist;
+    QLabel* album;
     
     PianoHandle_t ph;
     WaitressHandle_t wh;
