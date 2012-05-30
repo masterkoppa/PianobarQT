@@ -95,10 +95,10 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   
   playlistDock->clearPlaylist();
   
+  playlist.clear();
+  
   nextSong();
-  
-  
-  
+
   std::cout << "Starting song" << std::endl;
   
 }
@@ -120,23 +120,36 @@ void Pianobar_QT_MainWindow::getPlaylist()
   //If it's empty fill it
   if(playlist.empty()){
     playlistIndex = 0;
+    std::cout << "Filling playlist" << std::endl;
     playlist = helper.parsePlaylist(song);
+    
+    //Pushes the song to the playlist dock
+    for(std::vector<PandoraSong>::size_type i = playlistIndex; i != playlist.size(); i++){
+      playlistDock->pushSong(playlist[i].toShortString());
+    }
+    
   }else{
     //Since its not empty we will append to the end of the list
+    std::cout << "Re-filling playlist" << std::endl;
     std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
     playlist.insert(playlist.end(), tmp.begin(), tmp.end());
+    
+    //Pushes the NEW songs to the playlist dock
+    for(std::vector<PandoraSong>::size_type i = playlistIndex+1; i != playlist.size(); i++){
+      playlistDock->pushSong(playlist[i].toShortString());
+    }
   }
-  for(std::vector<PandoraSong>::size_type i = playlistIndex; i != playlist.size(); i++){
-    playlistDock->pushSong(playlist[i].toShortString());
-  }
+  
   
 }
 
 void Pianobar_QT_MainWindow::nextSong()
 {
-  if(playlistIndex-1 == playlist.size()){
+  if(playlistIndex+1 == playlist.size()){
     getPlaylist();//If we are about to finish, get a new one
   }
+  
+  std::cout << playlistIndex << " " << playlist.size() << std::endl;
   
   if(playlist.empty()){
     getPlaylist();//Get the new playlist since we have none
