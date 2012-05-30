@@ -10,3 +10,14 @@ What is working:
 * Retrieving the playlist
 * The second station is selected and started
 * Music will play indefinately(Until pandora quits on me)
+* The GUI Shows the following information:
+  * Song Name
+  * Artist
+  * Album
+  * All Stations
+  * All the songs in the playlist(4 by for from pandora)
+Screenshot:
+[Current State of the App](https://dl.dropbox.com/u/784245/PianobarQT_Screenshot5.png)
+
+
+TODO: Add build instructions
