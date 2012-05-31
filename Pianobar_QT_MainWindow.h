@@ -16,12 +16,19 @@
 #include <QHttp>
 #include <QBuffer>
 #include <QPicture>
-
+#include <QHBoxLayout>
+#include <QPushButton>
 
 //Phonon
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
 #include <Phonon/SeekSlider>
+
+
+//Custom Defines
+
+#define PlayIconName "media-playback-start"
+#define PauseIconName "media-playback-pause"
 
 class Pianobar_QT_MainWindow : public QMainWindow
 {
@@ -47,6 +54,8 @@ private:
     QLabel* artist;
     QLabel* album;
     
+    QPushButton* playPause;
+    
     PianoHandle_t ph;
     WaitressHandle_t wh;
     
@@ -61,6 +70,8 @@ private slots:
     void onEachTick();
     void onEndOfSong();
     void albumDownloaded(int id, bool err);
+    void playPauseToggle();
+    void updateOnMediaStateChange();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H

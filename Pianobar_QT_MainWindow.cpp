@@ -1,5 +1,5 @@
 #include "Pianobar_QT_MainWindow.h"
-#include <QHBoxLayout>
+
 
 
 /**
@@ -63,9 +63,17 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    infoLayout->addWidget(artist);
    infoLayout->addWidget(album);
    
+   QHBoxLayout* buttonLayout = new QHBoxLayout();
+   
+   QIcon playPauseIcon = QIcon::fromTheme("media-playback-start");
+   playPause = new QPushButton(playPauseIcon, "Play/Pause", this); 
+   
+   buttonLayout->addWidget(playPause, Qt::AlignCenter);
+   
    test->addWidget(albumArt, 0, 0, Qt::AlignCenter);
    test->addLayout(infoLayout, 1, 0, Qt::AlignCenter);
-   test->addWidget(timeLabel, 2, 0, Qt::AlignCenter);
+   test->addLayout(buttonLayout, 2, 0, Qt::AlignCenter);
+   test->addWidget(timeLabel, 3, 0, Qt::AlignCenter);
    
    
    centralWidget->setLayout(test);
@@ -75,8 +83,6 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    stationsDock = new QStationsList();
    
    addDockWidget(Qt::LeftDockWidgetArea, stationsDock);
-   
-   //playlist = new std::vector<PandoraSong>();
    
    playlistDock = new QPlaylist();
    
@@ -90,10 +96,12 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    Phonon::SeekSlider* seeker = new Phonon::SeekSlider(media, this);
    
-   test->addWidget(seeker, 3, 0, Qt::AlignCenter);
+   test->addWidget(seeker, 4, 0, Qt::AlignCenter);
    
    connect(media, SIGNAL(tick(qint64)), SLOT(onEachTick()));
    connect(media, SIGNAL(finished()), SLOT(onEndOfSong()));
+   connect(media, SIGNAL(stateChanged(Phonon::State,Phonon::State)), SLOT(updateOnMediaStateChange()));
+   connect(playPause, SIGNAL(clicked(bool)), SLOT(playPauseToggle()));
 }
 
 
@@ -275,16 +283,32 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
     albumArt->setPixmap(QPixmap::fromImage(image));
     albumArt->resize(500,500);
     
-//     QPicture* picture = new QPicture();
-//     
-//     picture->load(imageData);
-    
-//     albumArt->setPicture(*picture);
-    
     Q_ASSERT(albumArt->pixmap() != 0);
 
   }
 }
+
+void Pianobar_QT_MainWindow::playPauseToggle()
+{
+  if(media->state() == Phonon::PlayingState){
+    media->pause();
+  }else if(media->state() == Phonon::PausedState){
+    media->play();
+  }else{
+    std::cout << "Invalid State" << std::endl;
+  }
+}
+
+void Pianobar_QT_MainWindow::updateOnMediaStateChange()
+{
+  if(media->state() == Phonon::PlayingState){
+    playPause->setIcon(QIcon::fromTheme(PauseIconName));
+  }else if(media->state() == Phonon::PausedState){
+    playPause->setIcon(QIcon::fromTheme(PlayIconName));
+  }
+}
+
+
 
 
 #include "Pianobar_QT_MainWindow.moc"
