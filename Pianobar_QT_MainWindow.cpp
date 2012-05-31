@@ -53,6 +53,10 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    timeLabel = new QLabel("00:00:00:/00:00:00");
    albumArt = new QLabel("Album Art");
    
+   //Set somthing as a default
+   QIcon defaultIcon = QIcon::fromTheme("audio-ac3");
+   albumArt->setPixmap(defaultIcon.pixmap(500,500));
+   
    QVBoxLayout *infoLayout = new QVBoxLayout();
    
    songName = new QLabel("Title: ");
@@ -271,7 +275,10 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
   
   if(request == id){
     if(err){
-      std::cout << "ERROR" << std::endl;
+      std::cout << "Error downloading Album Art" << std::endl;
+      QIcon defaultIcon = QIcon::fromTheme("audio-ac3");
+      albumArt->setPixmap(defaultIcon.pixmap(500,500));
+      return;
     }else{
       std::cout << "Downloaded Image" << std::endl;
     }
