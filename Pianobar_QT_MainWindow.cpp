@@ -69,10 +69,18 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    QHBoxLayout* buttonLayout = new QHBoxLayout();
    
-   QIcon playPauseIcon = QIcon::fromTheme("media-playback-start");
-   playPause = new QPushButton(playPauseIcon, "Play/Pause", this); 
+   QIcon prevIcon = QIcon::fromTheme("media-skip-backward");
+   prev = new QPushButton(prevIcon, "", this);
    
-   buttonLayout->addWidget(playPause, Qt::AlignCenter);
+   QIcon playPauseIcon = QIcon::fromTheme("media-playback-start");
+   playPause = new QPushButton(playPauseIcon, "", this); 
+   
+   QIcon nextIcon = QIcon::fromTheme("media-skip-forward");
+   next = new QPushButton(nextIcon, "", this);
+   
+   buttonLayout->addWidget(prev);
+   buttonLayout->addWidget(playPause);
+   buttonLayout->addWidget(next);
    
    test->addWidget(albumArt, 0, 0, Qt::AlignCenter);
    test->addLayout(infoLayout, 1, 0, Qt::AlignCenter);
@@ -130,7 +138,6 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   
   //If there is something there already
   if(!playlist.empty()){
-    
     playlist.clear();
   }
   
@@ -288,7 +295,6 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
   
     
     albumArt->setPixmap(QPixmap::fromImage(image));
-    albumArt->resize(500,500);
     
     Q_ASSERT(albumArt->pixmap() != 0);
 

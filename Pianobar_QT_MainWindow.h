@@ -55,6 +55,8 @@ private:
     QLabel* album;
     
     QPushButton* playPause;
+    QPushButton* next;
+    QPushButton* prev;
     
     PianoHandle_t ph;
     WaitressHandle_t wh;
