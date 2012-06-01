@@ -65,6 +65,9 @@ private:
     
     void getPlaylist();
     void nextSong();
+    void enableButtons();
+    void disableButtons();
+    
     int request;
     
 private slots:
@@ -102,6 +105,7 @@ private slots:
      * changed.
      */
     void updateOnMediaStateChange();
+    void onNewSongSelect();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H

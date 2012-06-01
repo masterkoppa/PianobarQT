@@ -114,6 +114,10 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    connect(media, SIGNAL(finished()), SLOT(onEndOfSong()));
    connect(media, SIGNAL(stateChanged(Phonon::State,Phonon::State)), SLOT(updateOnMediaStateChange()));
    connect(playPause, SIGNAL(clicked(bool)), SLOT(playPauseToggle()));
+   connect(next, SIGNAL(clicked(bool)), SLOT(onNewSongSelect()));
+   
+   //Since they're no functions you can do on start, disable the buttons
+   disableButtons();
 }
 
 
@@ -231,7 +235,7 @@ void Pianobar_QT_MainWindow::nextSong()
   
   //Set the info
     
-  QString songNameText ("Artist: ");
+  QString songNameText ("Title: ");
   songNameText.append(QString(playlist[playlistIndex].getTitle()));
   
   QString albumText ("Album: ");
@@ -312,14 +316,43 @@ void Pianobar_QT_MainWindow::playPauseToggle()
   }
 }
 
+void Pianobar_QT_MainWindow::disableButtons()
+{
+  prev->setEnabled(false);
+  playPause->setEnabled(false);
+  next->setEnabled(false);
+}
+
+void Pianobar_QT_MainWindow::enableButtons()
+{
+  prev->setEnabled(true);
+  playPause->setEnabled(true);
+  next->setEnabled(true);
+}
+
+
+
 void Pianobar_QT_MainWindow::updateOnMediaStateChange()
 {
   if(media->state() == Phonon::PlayingState){
     playPause->setIcon(QIcon::fromTheme(PauseIconName));
+    enableButtons();
   }else if(media->state() == Phonon::PausedState){
     playPause->setIcon(QIcon::fromTheme(PlayIconName));
+    enableButtons();
+  }else if(media->state() == Phonon::BufferingState){
+    //Do Nothing
+  }else{
+    disableButtons();
   }
 }
+
+void Pianobar_QT_MainWindow::onNewSongSelect()
+{
+  std::cout << "Next pressed" << std::endl;
+  nextSong();
+}
+
 
 
 
