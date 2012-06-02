@@ -36,6 +36,9 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   PianoReturn_t pianoRet;
   WaitressReturn_t waitRet;
   
+  lastKnownPassword = password;
+  lastKnownUsername = username;
+  
   
   //IDEA: Build this object inside the GUI and pass it built
   PianoRequestDataLogin_t loginReq;
@@ -135,6 +138,12 @@ void PianoSteps::PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* 
     if(request.responseData != NULL){
       free(request.responseData);
     }
+    
+    if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
+      PianoLogin(pianoHandle, waitressHandle, lastKnownUsername, lastKnownPassword);
+      pianoRet = PIANO_RET_CONTINUE_REQUEST;
+    }
+    
     PianoDestroyRequest(&request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
@@ -194,8 +203,16 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
     if(request.responseData != NULL){
       free(request.responseData);
     }
+    
+    if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
+      PianoLogin(pianoHandle, waitressHandle, lastKnownUsername, lastKnownPassword);
+      pianoRet = PIANO_RET_CONTINUE_REQUEST;
+    }
+    
     PianoDestroyRequest(&request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
+  
+  
   
   //std::cout << playlistReq.retPlaylist->audioUrl << std::endl;
   //std::cout << playlistReq.retPlaylist->coverArt << std::endl;

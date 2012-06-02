@@ -37,6 +37,8 @@ public:
     PianoSong_t* PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station);
 private:
     WaitressReturn_t BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request);
+    char* lastKnownUsername;
+    char* lastKnownPassword;
 };
 
 #endif // PIANOSTEPS_H
