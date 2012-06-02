@@ -16,6 +16,9 @@ PandoraSong::PandoraSong(PianoSong_t song)
   fileGain = song.fileGain;
   rating = song.rating;
   format = song.audioFormat;
+  
+  songDownloaded = false;
+  albumArtDownloaded = false;
 }
 
 char* PandoraSong::getAlbum()
