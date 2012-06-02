@@ -91,46 +91,12 @@ void Pianobar_QT::logIn(){
     free(user);
     free(pass);
     
-    Pianobar_QT_MainWindow* test = new Pianobar_QT_MainWindow(username);
-    test->setHandlers(ph, wh);
-    test->show();
+    Pianobar_QT_MainWindow* mainWindow = new Pianobar_QT_MainWindow(username);
+    mainWindow->setHandlers(ph, wh);
+    mainWindow->show();
     this->close();
-    
-//     piano.PianoGetStations(&ph, &wh);
-//     
-//     std::vector<PandoraStation> stations = helper.parseStations(ph.stations);
-//     
-//     
-//     
-//     selectedStation = new PandoraStation(*ph.stations->next);
-//     
-//     getMoreSongs();
-//     
-//     media = new Phonon::MediaObject(this);
-//     Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
-// 
-//     
-//     //Set the index to start at 0
-//     playIndex = 0;
-//     
-//     //Before we continue make sure that we have a playlist
-//     Q_ASSERT(playlist.size() > 0);
-//     
-//     //Queue up the first one
-//     QUrl link = QUrl::fromEncoded(playlist[0].getAudioURL().toAscii());
-//     media->setCurrentSource(link);
-//     media->play();
-//     
-//     
-//     media->setTickInterval(1000);
-//    
-//     //label = new QLabel("00:00:00/00:00:00", this);
-//    
-//     connect(media, SIGNAL(tick(qint64)), SLOT(onUpdate()));
-//     connect(media, SIGNAL(aboutToFinish()), SLOT(aboutToEnd()));
-//     connect(media, SIGNAL(finished()), SLOT(onStop()));
-//     
-//     //Make sure that there are no double logins
+        
+    //Make sure that there are no double logins
     ok->disconnect(SIGNAL(clicked(bool)));
     passwordField->disconnect(SIGNAL(returnPressed()));
 }
