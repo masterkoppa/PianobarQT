@@ -11,11 +11,11 @@ void PianoSteps::PianoInitialize(PianoHandle_t* pianoHandle, WaitressHandle_t* w
   gnutls_global_init();
   
   //Constants for Piano Init
-  char *user = "android";
-  char *password = "AC7IBG09A3DTSYM4R41UJWL07VLN8JI7";
-  char *device = "android-generic";
-  char *in = "R=U!LH$O2B#";
-  char *out = "6#26FRL$ZWD";
+  const char *user = "android";
+  const char *password = "AC7IBG09A3DTSYM4R41UJWL07VLN8JI7";
+  const char *device = "android-generic";
+  const char *in = "R=U!LH$O2B#";
+  const char *out = "6#26FRL$ZWD";
   
   //Initialize PianoHandle
   //TODO: DOCUMENT METHOD IN LIBPIANOBAR

@@ -61,7 +61,7 @@ private:
     PianoHandle_t ph;
     WaitressHandle_t wh;
     
-    int playlistIndex;
+    unsigned int playlistIndex;
     
     void getPlaylist();
     void nextSong();
