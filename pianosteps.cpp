@@ -213,12 +213,6 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
   
-  
-  //std::cout << playlistReq.retPlaylist->audioUrl << std::endl;
-  //std::cout << playlistReq.retPlaylist->coverArt << std::endl;
-  
-  //std::cout << "Got playlist" << std::endl;
-  
   return playlistReq.retPlaylist;
 }
 

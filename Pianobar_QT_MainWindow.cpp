@@ -114,7 +114,8 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    connect(media, SIGNAL(finished()), SLOT(onEndOfSong()));
    connect(media, SIGNAL(stateChanged(Phonon::State,Phonon::State)), SLOT(updateOnMediaStateChange()));
    connect(playPause, SIGNAL(clicked(bool)), SLOT(playPauseToggle()));
-   connect(next, SIGNAL(clicked(bool)), SLOT(onNewSongSelect()));
+   connect(next, SIGNAL(clicked(bool)), SLOT(onNextSongSelect()));
+   connect(prev, SIGNAL(clicked(bool)), SLOT(onPrevSongSelect()));
    
    //Since they're no functions you can do on start, disable the buttons
    disableButtons();
@@ -166,6 +167,9 @@ void Pianobar_QT_MainWindow::getPlaylist()
   //Get the linked list for this playlist
   PianoSong_t* song = piano.PianoGetPlaylist(&ph, &wh, &tmpStation);
   
+  //Make sure that the song is valid, otherwise errors will happen.
+  Q_ASSERT(song != NULL);
+  
   //If it's empty fill it
   if(playlist.empty()){
     playlistIndex = 0;
@@ -208,6 +212,21 @@ void Pianobar_QT_MainWindow::nextSong()
   
   playlistIndex++;
   
+  playSong();
+}
+
+void Pianobar_QT_MainWindow::prevSong()
+{
+  if(playlistIndex == 0){
+    playSong();
+  }else{
+    playlistIndex--;
+    playSong();
+  }
+}
+
+void Pianobar_QT_MainWindow::playSong()
+{
   playlistDock->setSongSelected(playlistIndex);
   
   QString url = playlist[playlistIndex].getAudioURL();
@@ -248,6 +267,7 @@ void Pianobar_QT_MainWindow::nextSong()
   album->setText(albumText);
   artist->setText(artistText);
 }
+
 
 
 
@@ -300,6 +320,7 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
     
     albumArt->setPixmap(QPixmap::fromImage(image));
     
+    //Sanity check
     Q_ASSERT(albumArt->pixmap() != 0);
 
   }
@@ -344,18 +365,25 @@ void Pianobar_QT_MainWindow::updateOnMediaStateChange()
     //Do Nothing
   }else if(media->state() == Phonon::ErrorState){
     std::cout << "Error occured" <<std::endl;
-    disableButtons();
-    nextSong();
+    disableButtons();//Disable the buttons so that they stay that way if there's more problems
+    playSong(); //Attempt to replay the current song
   }else{
     disableButtons();
   }
 }
 
-void Pianobar_QT_MainWindow::onNewSongSelect()
+void Pianobar_QT_MainWindow::onNextSongSelect()
 {
   std::cout << "Next pressed" << std::endl;
   nextSong();
 }
+
+void Pianobar_QT_MainWindow::onPrevSongSelect()
+{
+  std::cout << "Prev pressed" << std::endl;
+  prevSong();
+}
+
 
 
 

@@ -64,8 +64,41 @@ private:
     unsigned int playlistIndex;
     
     void getPlaylist();
+    
+    /**
+     * Tries to play the next song in the playlist.
+     * 
+     * This will make sure that the playlist is allways filled
+     * by checking the size of the playlist and the playlist index
+     * everytime calling getPlaylist() whenever needed.
+     */
     void nextSong();
+    
+    /**
+     * Tries to play the previous song in the playlist.
+     * 
+     * This will make sure to never make playlist index negative.
+     */
+    void prevSong();
+    
+    /**
+     * Uses the play index to play the selected song, it should
+     * be called by nextSong() and prevSong ONLY!
+     */
+    void playSong();
+    
+    /**********************************
+     *         Helper Methods         *
+     **********************************/
+    
+    /**
+     * Enable any playback related buttons or actions
+     */
     void enableButtons();
+    
+    /**
+     * Disable any playback related buttons or actions
+     */
     void disableButtons();
     
     int request;
@@ -105,7 +138,10 @@ private slots:
      * changed.
      */
     void updateOnMediaStateChange();
-    void onNewSongSelect();
+    
+    void onNextSongSelect();
+    
+    void onPrevSongSelect();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H
