@@ -342,6 +342,10 @@ void Pianobar_QT_MainWindow::updateOnMediaStateChange()
     enableButtons();
   }else if(media->state() == Phonon::BufferingState){
     //Do Nothing
+  }else if(media->state() == Phonon::ErrorState){
+    std::cout << "Error occured" <<std::endl;
+    disableButtons();
+    nextSong();
   }else{
     disableButtons();
   }

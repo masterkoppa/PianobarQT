@@ -24,3 +24,10 @@ Screenshot:
 
 
 TODO: Add build instructions
+
+Known Problems:
+===============
+
+* If a timeout occurs the program will segfault.
+* If a stream is left open for too long it will stop and try to skip to the
+  next song.
