@@ -6,4 +6,4 @@ include_directories(${QT_INCLUDES} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} 
 set(Pianobar-QT_SRCS QPlaylist.cpp QStationsList.cpp  pandorasong.cpp pandorastation.cpp pianosteps.cpp pianohelper.cpp Pianobar-QT.cpp Pianobar_QT_MainWindow.cpp main.cpp)
 qt4_automoc(${Pianobar-QT_SRCS})
 add_executable(Pianobar-QT ${Pianobar-QT_SRCS})
-target_link_libraries(Pianobar-QT ${QT_QTCORE_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${KDE4_KDEUI_LIBS} phonon piano -lgcrypt -lgnutls -ljson -lcurl)
+target_link_libraries(Pianobar-QT ${QT_QTCORE_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${KDE4_KDEUI_LIBS} phonon piano gcrypt gnutls json)
