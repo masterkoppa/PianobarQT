@@ -105,6 +105,10 @@ private:
      */
     void disableButtons();
     
+    /**
+     * Id used by the http request, this is stored here to compare any http responses
+     * in the listener
+     */
     int request;
     
 private slots:
