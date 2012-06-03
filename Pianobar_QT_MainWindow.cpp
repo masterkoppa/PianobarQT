@@ -32,6 +32,13 @@ inline QString timeToString(long time_msecs)
   return retString;
 }
 
+inline QPushButton* createButton(QString name, QString iconName){
+  QPushButton* ret = new QPushButton(QIcon::fromTheme(iconName), 0);
+  ret->setToolTip(name);
+  
+  return ret;
+}
+
 Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QWidget* parent, Qt::WindowFlags flags): QMainWindow(parent, flags)
 {
   //DO Nothing
@@ -74,18 +81,13 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    QHBoxLayout* buttonLayout = new QHBoxLayout();
    
-   QIcon prevIcon = QIcon::fromTheme("media-skip-backward");
-   prev = new QPushButton(prevIcon, "", this);
+   prev = createButton("Previous Song", "media-skip-backward");
    
-   QIcon playPauseIcon = QIcon::fromTheme("media-playback-start");
-   playPause = new QPushButton(playPauseIcon, "", this); 
+   playPause = createButton("Play/Pause", "media-playback-start");
    
-   QIcon nextIcon = QIcon::fromTheme("media-skip-forward");
-   next = new QPushButton(nextIcon, "", this);
+   next = createButton("Next Song", "media-skip-forward");
    
-   QIcon loveSongIcon = QIcon::fromTheme("face-smile");
-   loveSong = new QPushButton(loveSongIcon, "", this);
-   loveSong->setToolTip("Neutral");
+   loveSong = createButton("Neutral", "face-smile");
    
    buttonLayout->addWidget(prev);
    buttonLayout->addWidget(playPause);
