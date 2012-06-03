@@ -113,7 +113,7 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    Phonon::SeekSlider* seeker = new Phonon::SeekSlider(media, this);
    seeker->setIconVisible(false);
-   seeker->setMinimumWidth(200);
+   seeker->setMinimumWidth(300);
    
    test->addWidget(seeker, 4, 0, Qt::AlignCenter);
    
