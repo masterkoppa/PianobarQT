@@ -20,7 +20,7 @@ What is working:
 
 Screenshot:
 ==========
-![Current State of the App](https://dl.dropbox.com/u/784245/PianobarQT_Screenshot5.png)
+![Current State of the App](https://dl.dropbox.com/u/784245/PianobarQT_Screenshot6.png)
 
 
 TODO: Add build instructions
@@ -28,6 +28,4 @@ TODO: Add build instructions
 Known Problems:
 ===============
 
-* If a timeout occurs the program will segfault.
-* If a stream is left open for too long it will stop and try to skip to the
-  next song.
+None so far :D
