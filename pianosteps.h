@@ -6,6 +6,7 @@ extern "C" {
 }
 
 #include "pianohelper.h"
+#include <QDebug>
 #include <iostream>
 
 #define PIANOSTEPS_H

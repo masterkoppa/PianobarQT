@@ -61,27 +61,33 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
     
     pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_LOGIN);
     
+    qDebug() << "LOGIN: Pianobar Request sent";
+    
     if(pianoRet != PIANO_RET_OK){
-      std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
+      qDebug() << "Problem Encountered, piano returned not ok";
     }else{
-      std::cout << "Piano Returned OK, moving on" << std::endl;
+      qDebug() << "Piano Returned OK, moving on";
     }
     
     waitRet = BarPianoHttpRequest(waitressHandle, &request);
     
+    qDebug() << "LOGIN: Libwaitress Request sent";
+    
     if(waitRet != WAITRESS_RET_OK){
-      std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+      qDebug() << "Problem Encountered, waitress returned not ok" ;
     }else{
-      std::cout << "Waitress Returned OK, moving on" << std::endl;
+      qDebug() << "Waitress Returned OK, moving on";
     }
     
     pianoRet = PianoResponse(pianoHandle, &request);
     
+    qDebug() << "LOGIN: Reponse sent to libpiano";
+    
     if(pianoRet != PIANO_RET_CONTINUE_REQUEST){
       if(pianoRet == PIANO_RET_P_INVALID_AUTH_TOKEN){
-	std::cout << "Invalid Auth Token" << std::endl;
+	qDebug() << "Invalid Auth Token";
       }else if(pianoRet == PIANO_RET_OK){
-	std::cout << "Everything whent ok" << std::endl;
+	qDebug() << "Everything whent ok";
       }
     }
     
@@ -185,9 +191,9 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
     pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_GET_PLAYLIST);
     
     if(pianoRet != PIANO_RET_OK){
-      std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
+      qDebug() << "Problem Encountered, piano returned not ok";
     }else{
-      std::cout << "Piano Returned OK, moving on" << std::endl;
+      qDebug() << "Piano Returned OK, moving on";
     }
     
     waitRet = BarPianoHttpRequest(waitressHandle, &request);
