@@ -17,6 +17,8 @@ QPlaylist::QPlaylist(QWidget* parent, Qt::WindowFlags flags): QDockWidget(title,
 //   playlist->addItem(new QListWidgetItem("Song 3"));
   
   this->setWidget(playlist);
+  
+  playlist->setSelectionMode(QAbstractItemView::NoSelection);
 }
 
 void QPlaylist::clearPlaylist()

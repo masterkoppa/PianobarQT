@@ -109,6 +109,7 @@ private slots:
      * the current playlist, do some cleanup and start the new station.
      */
     void onNewStationSelect();
+    
     /**
      * Update any GUI Components that need to be updated every second of the
      * songs progress. Example:
@@ -116,21 +117,25 @@ private slots:
      * Seconds elapsed on song being displayed on the GUI.
      */
     void onEachTick();
+    
     /**
      * Slot used at the end of a song. This will queue the next song
      * by calling the next song method.
      */
     void onEndOfSong();
+    
     /**
      * Process the downloaded album art. Params passed
      * from the signal.
      */
     void albumDownloaded(int id, bool err);
+    
     /**
      * Togle the state of playing in the system. If not playing or paused,
      * the system will spit out an error message.
      */
     void playPauseToggle();
+    
     /**
      * Update any GUI objects that need to change when the applications state changes.
      * 

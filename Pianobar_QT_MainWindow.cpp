@@ -368,7 +368,7 @@ void Pianobar_QT_MainWindow::updateOnMediaStateChange()
     disableButtons();//Disable the buttons so that they stay that way if there's more problems
     playSong(); //Attempt to replay the current song
   }else{
-    disableButtons();
+    enableButtons();
   }
 }
 
