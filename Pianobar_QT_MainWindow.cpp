@@ -55,7 +55,12 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    
    //Set somthing as a default
    QIcon defaultIcon = QIcon::fromTheme("audio-ac3");
+   albumArt->setAlignment(Qt::AlignCenter);
+   albumArt->setScaledContents(true);
    albumArt->setPixmap(defaultIcon.pixmap(500,500));
+   
+   albumArt->setMinimumSize(400, 400);
+   albumArt->setMaximumSize(400, 400);
    
    QVBoxLayout *infoLayout = new QVBoxLayout();
    
@@ -107,6 +112,8 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    Phonon::createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
    
    Phonon::SeekSlider* seeker = new Phonon::SeekSlider(media, this);
+   seeker->setIconVisible(false);
+   seeker->setMinimumWidth(200);
    
    test->addWidget(seeker, 4, 0, Qt::AlignCenter);
    
@@ -320,6 +327,7 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
   
     
     albumArt->setPixmap(QPixmap::fromImage(image));
+    
     
     //Sanity check
     Q_ASSERT(albumArt->pixmap() != 0);
