@@ -18,12 +18,22 @@ What is working:
   * All the songs in the playlist(4 by for from pandora)  
 
 
+Buidl Instructions:
+==================
+
+Clone the git repository using your favorite client.  
+
+Change into the repository directory and run the following command:  
+~~~
+cmake CMakeLists.txt
+make all
+~~~
+
+  
 Screenshot:
 ==========
 ![Current State of the App](https://dl.dropbox.com/u/784245/PianobarQT_Screenshot6.png)
 
-
-TODO: Add build instructions
 
 Known Problems:
 ===============

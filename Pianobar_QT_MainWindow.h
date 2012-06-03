@@ -68,8 +68,6 @@ private:
     PianoHandle_t ph;
     WaitressHandle_t wh;
     
-    
-    
     void getPlaylist();
     
     /**
