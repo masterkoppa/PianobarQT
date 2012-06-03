@@ -1,32 +1,35 @@
 #ifndef PIANOBAR_QT_MAINWINDOW_H
 #define PIANOBAR_QT_MAINWINDOW_H
 
-#include <QMainWindow>
-#include <piano.h>
-#include <waitress.h>
+//Project Includes
+
 #include "pianohelper.h"
 #include "pianosteps.h"
 #include "QStationsList.h"
 #include "QPlaylist.h"
+
+//Libpiano includes
+extern "C" {
+  #include <piano.h>
+  #include <waitress.h>
+}
+
+//QT Includes
+#include <QMainWindow>
 #include <QLabel>
-#include <qgridlayout.h>
-#include <QListWidget>
-#include "QPlaylist.h"
-#include <QHttpHeader>
+#include <QGridLayout>
 #include <QHttp>
 #include <QBuffer>
-#include <QPicture>
 #include <QHBoxLayout>
 #include <QPushButton>
 
 //Phonon
-#include <phonon/mediaobject.h>
-#include <phonon/audiooutput.h>
+#include <Phonon/MediaObject>
+#include <Phonon/AudioOutput>
 #include <Phonon/SeekSlider>
 
 
 //Custom Defines
-
 #define PlayIconName "media-playback-start"
 #define PauseIconName "media-playback-pause"
 
@@ -65,7 +68,7 @@ private:
     PianoHandle_t ph;
     WaitressHandle_t wh;
     
-    unsigned int playlistIndex;
+    
     
     void getPlaylist();
     
@@ -105,15 +108,31 @@ private:
      */
     void disableButtons();
     
+    /**
+     * Builds the GUI labels, in a method for readability and
+     * ease of use.
+     */
     void buildLabels();
     
+    
+    /**********************************
+     *        State Variables         *
+     **********************************/
     /**
      * Id used by the http request, this is stored here to compare any http responses
      * in the listener
      */
     int request;
     
+    /**
+     * Piano Rating of the current song, this is updated every song
+     */
     PianoSongRating_t songRating;
+    
+    /**
+     * The current index of the playlist.
+     */
+    unsigned int playlistIndex;
     
 private slots:
     /**
@@ -156,10 +175,25 @@ private slots:
      */
     void updateOnMediaStateChange();
     
+    /**
+     * Call any methods necessary when the next button or action is selected.
+     * 
+     * This will call nextSong() and print out a debugging message
+     */
     void onNextSongSelect();
     
+    /**
+     * Call any methods necessary when the previous button or action is selected.
+     * 
+     * This will call prevSong() and print out a debugging message
+     */
     void onPrevSongSelect();
     
+    /**
+     * Switched between the available ratings for the current song. This rating isn't
+     * updated until the end of the song. If you do any actions before the song ends normaly
+     * this rating won't be saved.
+     */
     void onSongRateSelect();
 };
 
