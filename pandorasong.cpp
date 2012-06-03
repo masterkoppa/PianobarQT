@@ -89,6 +89,28 @@ bool PandoraSong::isSongNeutral()
   return rating == PIANO_RATE_NONE;
 }
 
+PianoSong_t PandoraSong::toPianoSong()
+{
+  PianoSong_t song;
+  
+  song.artist = artist;
+  song.stationId = stationId;
+  song.album = album;
+  song.audioUrl = audioUrl;
+  song.coverArt = coverArt;
+  song.musicId = musicId;
+  song.title = title;
+  song.seedId = seedId;
+  song.feedbackId = feedbackId;
+  song.detailUrl = detailUrl;
+  song.trackToken = trackToken;
+  song.fileGain = fileGain;
+  song.rating = rating;
+  song.audioFormat = format;
+  
+  return song;
+}
+
 
 
 

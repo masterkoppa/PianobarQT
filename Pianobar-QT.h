@@ -15,16 +15,10 @@ extern "C" {
 #include "waitress.h"
 }
 
-
-//Phonon
-#include <phonon/mediaobject.h>
-#include <phonon/audiooutput.h>
-
 //QT
 #include <QtGui/QApplication>
 #include <QLabel>
-#include <QUrl>
-#include <qgridlayout.h>
+#include <QGridLayout>
 #include <QDesktopWidget>
 #include <QtCore/QObject>
 #include <QLineEdit>
@@ -44,22 +38,15 @@ public:
     Pianobar_QT(QWidget* parent = 0);
 
 private:
-    QLabel* label;
-    Phonon::MediaObject* media;
-    std::vector<PandoraSong> playlist;
-    int playIndex;
-    void getMoreSongs();
     PianoHandle_t ph;
     WaitressHandle_t wh;
+    
     PianoSteps piano;
     PianoHelper helper;
-    PandoraStation* selectedStation;
+    
     QLineEdit* userName;
     QLineEdit* passwordField;
     QPushButton* ok;
-    
-    
-    
     
 private slots:
     void logIn();

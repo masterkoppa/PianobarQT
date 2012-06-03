@@ -181,7 +181,7 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
   
   playlistReq.station = station;
   //TODO: Make this adjustable by some sort of settings
-  playlistReq.format = PIANO_AF_AACPLUS;
+  playlistReq.format = PIANO_AF_MP3_HI;
   
   
   PianoRequest_t request;
@@ -224,14 +224,14 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
   return playlistReq.retPlaylist;
 }
 
-void PianoSteps::PianoRateSong(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoSong_t* song)
+void PianoSteps::PianoRateSong(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoSong_t* song, PianoSongRating_t rating)
 {
   PianoReturn_t pianoRet;
   WaitressReturn_t waitRet;
   PianoRequestDataRateSong_t songRateReq;
   
   songRateReq.song = song;
-  songRateReq.rating = PIANO_RATE_LOVE;
+  songRateReq.rating = rating;
   
   PianoRequest_t request;
   

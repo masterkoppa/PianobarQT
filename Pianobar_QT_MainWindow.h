@@ -113,6 +113,8 @@ private:
      */
     int request;
     
+    PianoSongRating_t songRating;
+    
 private slots:
     /**
      * Function used when a new station is selected. This will reset
@@ -157,6 +159,8 @@ private slots:
     void onNextSongSelect();
     
     void onPrevSongSelect();
+    
+    void onSongRateSelect();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H

@@ -39,7 +39,7 @@ public:
   /**
    * 
    */
-  void PianoRateSong(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoSong_t* song);
+  void PianoRateSong(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoSong_t* song, PianoSongRating_t rating);
 private:
     WaitressReturn_t BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request);
     char* lastKnownUsername;

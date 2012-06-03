@@ -78,6 +78,9 @@ void Pianobar_QT::logIn(){
     //     to make sure the user doesn't think the program is stuck
     
     //Copy the data to avoid overwriting... dam you memory
+    
+    
+    
     char* user = strdup(username.toAscii().data());
     char* pass = strdup(password.toAscii().data());
         

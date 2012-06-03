@@ -77,6 +77,8 @@ public:
      * is returned in a QString to simplify the program.
      */
     QString getAlbumArtURL();
+    
+    PianoSong_t toPianoSong();
 };
 
 #endif // PANDORASONG_H
