@@ -35,7 +35,11 @@ public:
   /**
    * SEE: main.c:161
    */
-    PianoSong_t* PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station);
+  PianoSong_t* PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoStation_t* station);
+  /**
+   * 
+   */
+  void PianoRateSong(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoSong_t* song);
 private:
     WaitressReturn_t BarPianoHttpRequest(WaitressHandle_t* waitressHandle, PianoRequest_t* request);
     char* lastKnownUsername;

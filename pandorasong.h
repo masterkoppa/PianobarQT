@@ -60,6 +60,11 @@ public:
      */
     char* getAlbum();
     
+    bool isSongNeutral();
+    
+    bool isSongLoved();
+    
+    bool isSongBanned();
     
     /**
      * Returns the audio url in a QString that is usable by the phonon

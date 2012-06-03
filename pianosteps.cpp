@@ -224,3 +224,53 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
   return playlistReq.retPlaylist;
 }
 
+void PianoSteps::PianoRateSong(PianoHandle_t* pianoHandle, WaitressHandle_t* waitressHandle, PianoSong_t* song)
+{
+  PianoReturn_t pianoRet;
+  WaitressReturn_t waitRet;
+  PianoRequestDataRateSong_t songRateReq;
+  
+  songRateReq.song = song;
+  songRateReq.rating = PIANO_RATE_LOVE;
+  
+  PianoRequest_t request;
+  
+  memset(&request, 0, sizeof(request));
+  
+  
+  do{
+    request.data = (void *)&songRateReq;
+    
+    pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_GET_PLAYLIST);
+    
+    if(pianoRet != PIANO_RET_OK){
+      qDebug() << "Problem Encountered, piano returned not ok";
+    }else{
+      qDebug() << "Piano Returned OK, moving on";
+    }
+    
+    waitRet = BarPianoHttpRequest(waitressHandle, &request);
+    
+    if(waitRet != WAITRESS_RET_OK){
+      qDebug() << "Problem Encountered, waitress returned not ok";
+    }else{
+      qDebug() << "Waitress Returned OK, moving on";
+    }
+    
+    pianoRet = PianoResponse(pianoHandle, &request);
+    
+    if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
+      PianoLogin(pianoHandle, waitressHandle, lastKnownUsername, lastKnownPassword);
+      pianoRet = PIANO_RET_CONTINUE_REQUEST;
+    }
+    
+    
+    clearRequest(request);
+    
+  } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
+  
+  
+
+}
+
+

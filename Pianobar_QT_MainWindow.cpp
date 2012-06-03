@@ -5,7 +5,7 @@
 /**
  * Converts the time given in milliseconds to a qstring
  */
-QString timeToString(long time_msecs)
+inline QString timeToString(long time_msecs)
 {
   long stime = time_msecs/1000;
   
@@ -83,14 +83,19 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    QIcon nextIcon = QIcon::fromTheme("media-skip-forward");
    next = new QPushButton(nextIcon, "", this);
    
+   QIcon loveSongIcon = QIcon::fromTheme("face-smile");
+   loveSong = new QPushButton(loveSongIcon, "", this);
+   loveSong->setToolTip("Neutral");
+   
    buttonLayout->addWidget(prev);
    buttonLayout->addWidget(playPause);
    buttonLayout->addWidget(next);
    
-   test->addWidget(albumArt, 0, 0, Qt::AlignCenter);
-   test->addLayout(infoLayout, 1, 0, Qt::AlignCenter);
-   test->addLayout(buttonLayout, 2, 0, Qt::AlignCenter);
-   test->addWidget(timeLabel, 3, 0, Qt::AlignCenter);
+   test->addWidget(loveSong, 0, 0, Qt::AlignCenter);
+   test->addWidget(albumArt, 1, 0, Qt::AlignCenter);
+   test->addLayout(infoLayout, 2, 0, Qt::AlignCenter);
+   test->addLayout(buttonLayout, 3, 0, Qt::AlignCenter);
+   test->addWidget(timeLabel, 4, 0, Qt::AlignCenter);
    
    
    centralWidget->setLayout(test);
@@ -115,7 +120,7 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow(QString username): QMainWindow()
    seeker->setIconVisible(false);
    seeker->setMinimumWidth(300);
    
-   test->addWidget(seeker, 4, 0, Qt::AlignCenter);
+   test->addWidget(seeker, 5, 0, Qt::AlignCenter);
    
    connect(media, SIGNAL(tick(qint64)), SLOT(onEachTick()));
    connect(media, SIGNAL(finished()), SLOT(onEndOfSong()));
@@ -271,9 +276,24 @@ void Pianobar_QT_MainWindow::playSong()
   QString artistText ("Artist: ");
   artistText.append(QString(playlist[playlistIndex].getArtist()));
   
+  //Song Information
   songName->setText(songNameText);
   album->setText(albumText);
   artist->setText(artistText);
+  
+  //Song rating
+  if(playlist[playlistIndex].isSongNeutral()){
+    loveSong->setIcon(QIcon::fromTheme("face-smile"));
+    loveSong->setToolTip("Neutral");
+  }else if(playlist[playlistIndex].isSongBanned()){
+    loveSong->setIcon(QIcon::fromTheme("face-uncertain"));
+    loveSong->setToolTip("Banned");
+  }else if(playlist[playlistIndex].isSongLoved()){
+    loveSong->setIcon(QIcon::fromTheme("face-smile-big"));
+    loveSong->setToolTip("Loved");
+  }else{
+    
+  }
 }
 
 

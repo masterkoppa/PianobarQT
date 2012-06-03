@@ -74,6 +74,24 @@ QString PandoraSong::getAlbumArtURL()
   return *AlbumArtURL;
 }
 
+bool PandoraSong::isSongBanned()
+{
+  return rating == PIANO_RATE_BAN;
+}
+
+bool PandoraSong::isSongLoved()
+{
+  return rating == PIANO_RATE_LOVE;
+}
+
+bool PandoraSong::isSongNeutral()
+{
+  return rating == PIANO_RATE_NONE;
+}
+
+
+
+
 
 
 

@@ -57,6 +57,7 @@ private:
     QPushButton* playPause;
     QPushButton* next;
     QPushButton* prev;
+    QPushButton* loveSong;
     
     QBuffer* imageBuffer;
     QHttp* http;

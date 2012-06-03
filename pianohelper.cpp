@@ -24,6 +24,8 @@ std::vector< PandoraStation > PianoHelper::parseStations(PianoStation_t* station
     stations = stations->next;
   }
   
+  free(stations);
+  
   return ret;
 }
 
