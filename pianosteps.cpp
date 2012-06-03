@@ -1,5 +1,18 @@
 #include "pianosteps.h"
 
+/**
+ * Clears the request object from its allocation
+ */
+inline void clearRequest(PianoRequest_t request){
+  
+  if(request.responseData != NULL){
+      free(request.responseData);
+  }
+
+  PianoDestroyRequest(&request);
+}
+
+
 PianoSteps::PianoSteps()
 {
   //Default constructor
@@ -36,19 +49,16 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   PianoReturn_t pianoRet;
   WaitressReturn_t waitRet;
   
+  //Store the username and password in so
+  //they can be reused for timeout
   lastKnownPassword = password;
   lastKnownUsername = username;
   
-  
-  //IDEA: Build this object inside the GUI and pass it built
   PianoRequestDataLogin_t loginReq;
   
-  //loginReq.user = "ajr2546@rit.edu";
-  //loginReq.password = "passwordTest";
   loginReq.user = username;
   loginReq.password = password;
   loginReq.step = 0;
-  
   
   //ui.c:160
   PianoRequest_t request;
@@ -59,6 +69,8 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
   do{
     request.data = (void *)&loginReq;
     
+    
+    //Send the login request to libpiano
     pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_LOGIN);
     
     qDebug() << "LOGIN: Pianobar Request sent";
@@ -69,6 +81,7 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
       qDebug() << "Piano Returned OK, moving on";
     }
     
+    //Send the login request to libwaitress
     waitRet = BarPianoHttpRequest(waitressHandle, &request);
     
     qDebug() << "LOGIN: Libwaitress Request sent";
@@ -79,6 +92,7 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
       qDebug() << "Waitress Returned OK, moving on";
     }
     
+    //Analyze the response from libpiano
     pianoRet = PianoResponse(pianoHandle, &request);
     
     qDebug() << "LOGIN: Reponse sent to libpiano";
@@ -91,24 +105,18 @@ bool PianoSteps::PianoLogin(PianoHandle_t* pianoHandle, WaitressHandle_t* waitre
       }
     }
     
-    if(request.responseData != NULL){
-      free(request.responseData);
-    }
-    
-    PianoDestroyRequest(&request);
+    clearRequest(request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
   if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
-    std::cout << "Invalid user credentials" << std::endl;
+    qDebug() << "Invalid user credentials";
     return false;
   }else if(pianoRet == PIANO_RET_OK){
-    std::cout << "Valid credentials" << std::endl;
+    qDebug() << "Valid credentials";
     return true;
   }
-  
-  
-  
-  std::cout << "Done with login" << std::endl;
+
+  qDebug() << "Done with login";
   return false;
 }
 
@@ -126,34 +134,30 @@ void PianoSteps::PianoGetStations(PianoHandle_t* pianoHandle, WaitressHandle_t* 
     pianoRet = PianoRequest (pianoHandle, &request, PIANO_REQUEST_GET_STATIONS);
     
     if(pianoRet != PIANO_RET_OK){
-      std::cerr << "Problem Encountered, piano returned not ok" << std::endl;
+      qDebug() << "Problem Encountered, piano returned not ok";
     }else{
-      std::cout << "Piano Returned OK, moving on" << std::endl;
+      qDebug() << "Piano Returned OK, moving on";
     }
     
     waitRet = BarPianoHttpRequest(waitressHandle, &request);
     
     if(waitRet != WAITRESS_RET_OK){
-      std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+      qDebug() << "Problem Encountered, waitress returned not ok";
     }else{
-      std::cout << "Waitress Returned OK, moving on" << std::endl;
+      qDebug() << "Waitress Returned OK, moving on";
     }
     
     pianoRet = PianoResponse(pianoHandle, &request);
-    
-    if(request.responseData != NULL){
-      free(request.responseData);
-    }
-    
+
     if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
       PianoLogin(pianoHandle, waitressHandle, lastKnownUsername, lastKnownPassword);
       pianoRet = PIANO_RET_CONTINUE_REQUEST;
     }
     
-    PianoDestroyRequest(&request);
+    clearRequest(request);
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
-  std::cout << "Done getting stations" << std::endl;
+  qDebug() << "Done getting stations";
 }
 
 
@@ -199,23 +203,21 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
     waitRet = BarPianoHttpRequest(waitressHandle, &request);
     
     if(waitRet != WAITRESS_RET_OK){
-      std::cerr << "Problem Encountered, waitress returned not ok" << std::endl;
+      qDebug() << "Problem Encountered, waitress returned not ok";
     }else{
-      std::cout << "Waitress Returned OK, moving on" << std::endl;
+      qDebug() << "Waitress Returned OK, moving on";
     }
     
     pianoRet = PianoResponse(pianoHandle, &request);
-    
-    if(request.responseData != NULL){
-      free(request.responseData);
-    }
     
     if(pianoRet == PIANO_RET_P_INVALID_PARTNER_LOGIN){
       PianoLogin(pianoHandle, waitressHandle, lastKnownUsername, lastKnownPassword);
       pianoRet = PIANO_RET_CONTINUE_REQUEST;
     }
     
-    PianoDestroyRequest(&request);
+    
+    clearRequest(request);
+    
   } while(pianoRet == PIANO_RET_CONTINUE_REQUEST);
   
   

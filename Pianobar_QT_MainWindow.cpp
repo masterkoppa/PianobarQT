@@ -242,8 +242,9 @@ void Pianobar_QT_MainWindow::playSong()
   
   QUrl albumArtLink = QUrl::fromEncoded(albumArtUrl.toAscii());
   
-  QBuffer* imageBuffer = new QBuffer(&imageData);
-  QHttp* http = new QHttp(this);
+  imageBuffer = new QBuffer(&imageData);
+  
+  http = new QHttp(this);
   http->setHost(albumArtLink.host());
   
   std::cout << "Album Art URL:" << albumArtUrl.toStdString() << std::endl;
@@ -322,6 +323,7 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
     
     //Sanity check
     Q_ASSERT(albumArt->pixmap() != 0);
+    
 
   }
 }

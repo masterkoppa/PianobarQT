@@ -58,6 +58,9 @@ private:
     QPushButton* next;
     QPushButton* prev;
     
+    QBuffer* imageBuffer;
+    QHttp* http;
+    
     PianoHandle_t ph;
     WaitressHandle_t wh;
     
