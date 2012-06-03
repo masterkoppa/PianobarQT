@@ -58,27 +58,16 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow (QString username) : QMainWindow(
 
     QGridLayout* test = new QGridLayout (centralWidget);
 
-    timeLabel = new QLabel ("00:00:00:/00:00:00");
-    albumArt = new QLabel ("Album Art");
 
-    //Set somthing as a default
-    QIcon defaultIcon = QIcon::fromTheme ("audio-ac3");
-    albumArt->setAlignment (Qt::AlignCenter);
-    albumArt->setScaledContents (true);
-    albumArt->setPixmap (defaultIcon.pixmap (500, 500));
-
-    albumArt->setMinimumSize (400, 400);
-    albumArt->setMaximumSize (400, 400);
 
     QVBoxLayout* infoLayout = new QVBoxLayout();
-
-    songName = new QLabel ("Title: ");
-    artist = new QLabel ("Artist: ");
-    album = new QLabel ("Album: ");
-
+    
+    this->buildLabels();
+    
     infoLayout->addWidget (songName);
     infoLayout->addWidget (artist);
     infoLayout->addWidget (album);
+
 
     QHBoxLayout* buttonLayout = new QHBoxLayout();
 
@@ -135,6 +124,34 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow (QString username) : QMainWindow(
     //Since they're no functions you can do on start, disable the buttons
     disableButtons();
 }
+
+void Pianobar_QT_MainWindow::buildLabels()
+{
+    //Set the time label to show something
+    timeLabel = new QLabel ("00:00:00:/00:00:00");
+
+    //Album art label
+    albumArt = new QLabel ("Album Art");
+
+    //Set somthing as a default
+    QIcon defaultIcon = QIcon::fromTheme ("audio-ac3");
+    albumArt->setAlignment (Qt::AlignCenter);
+    albumArt->setScaledContents (true);
+    albumArt->setPixmap (defaultIcon.pixmap (500, 500));
+    
+    albumArt->setMinimumSize (400, 400);
+    albumArt->setMaximumSize (400, 400);
+    
+    //Song Information Labels
+    songName = new QLabel ("Title: ");
+    artist = new QLabel ("Artist: ");
+    album = new QLabel ("Album: ");
+    
+    songName->setMaximumWidth(400);
+    artist->setMaximumWidth(400);
+    album->setMinimumWidth(400);
+}
+
 
 
 void Pianobar_QT_MainWindow::setHandlers (PianoHandle_t ph, WaitressHandle_t wh)
