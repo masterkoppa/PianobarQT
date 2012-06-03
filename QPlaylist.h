@@ -3,6 +3,7 @@
 
 #include <QDockWidget>
 #include <QListWidget>
+#include <QEvent>
 
 class QPlaylist: public QDockWidget
 {
@@ -12,11 +13,15 @@ public:
     void pushSong(QString songName);
     void clearPlaylist();
     void setSongSelected(int row);
+    /**
+     * Eats up any mouse and keyboard events to make this QListWidget
+     * a READ-ONLY list, I don't want to deal with selecting a song
+     * in it and being played. Let them next or prev songs
+     */
+    bool eventFilter(QObject* o, QEvent* e);
     
 private:
     QListWidget* playlist;
-private slots:
-    void onSongChange();
 };
 
 #endif // QPLAYLIST_H
