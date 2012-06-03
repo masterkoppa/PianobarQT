@@ -151,7 +151,7 @@ void Pianobar_QT_MainWindow::setHandlers(PianoHandle_t ph, WaitressHandle_t wh)
 
 void Pianobar_QT_MainWindow::onNewStationSelect()
 {
-  std::cout << "New Station" << std::endl;
+  qDebug() << "New Station";
   
   playlistDock->clearPlaylist();
   
@@ -163,7 +163,7 @@ void Pianobar_QT_MainWindow::onNewStationSelect()
   playlistIndex = 0;
   nextSong();
 
-  std::cout << "Starting song" << std::endl;
+  qDebug() << "Starting song";
   
 }
 
@@ -187,7 +187,7 @@ void Pianobar_QT_MainWindow::getPlaylist()
   //If it's empty fill it
   if(playlist.empty()){
     playlistIndex = 0;
-    std::cout << "Filling playlist" << std::endl;
+    qDebug() << "Filling playlist";
     playlist = helper.parsePlaylist(song);
     
     //Pushes the song to the playlist dock
@@ -197,7 +197,7 @@ void Pianobar_QT_MainWindow::getPlaylist()
     
   }else{
     //Since its not empty we will append to the end of the list
-    std::cout << "Re-filling playlist" << std::endl;
+    qDebug() << "Re-filling playlist";
     std::vector<PandoraSong> tmp = helper.parsePlaylist(song);
     playlist.insert(playlist.end(), tmp.begin(), tmp.end());
     tmp.clear();
@@ -217,7 +217,7 @@ void Pianobar_QT_MainWindow::nextSong()
     getPlaylist();//If we are about to finish, get a new one
   }
   
-  std::cout << playlistIndex << " " << playlist.size() << std::endl;
+  qDebug() << playlistIndex << " " << playlist.size();
   
   if(playlist.empty()){
     getPlaylist();//Get the new playlist since we have none
@@ -261,14 +261,14 @@ void Pianobar_QT_MainWindow::playSong()
   http = new QHttp(this);
   http->setHost(albumArtLink.host());
   
-  std::cout << "Album Art URL:" << albumArtUrl.toStdString() << std::endl;
+  qDebug() << "Album Art URL:" << albumArtUrl;
   
   request = http->get(albumArtLink.path(), imageBuffer);
   
+  //Connect the http request to a response handler
   connect(http, SIGNAL(requestFinished(int,bool)), SLOT(albumDownloaded(int,bool)));
   
-  //Set the info
-    
+  //Set the song info
   QString songNameText ("Title: ");
   songNameText.append(QString(playlist[playlistIndex].getTitle()));
   
@@ -293,8 +293,6 @@ void Pianobar_QT_MainWindow::playSong()
   }else if(playlist[playlistIndex].isSongLoved()){
     loveSong->setIcon(QIcon::fromTheme("face-smile-big"));
     loveSong->setToolTip("Loved");
-  }else{
-    
   }
 }
 
@@ -321,14 +319,14 @@ void Pianobar_QT_MainWindow::onEachTick()
 void Pianobar_QT_MainWindow::onEndOfSong()
 {
   if(media->errorType() == Phonon::FatalError){
-    std::cout << "Phonon Fatal Error happened" << std::endl;
+    qDebug() << "Phonon Fatal Error happened";
   }else if(media->errorType() == Phonon::NormalError){
-    std::cout << "Phonon Normal Error, trying to continue" << std::endl;
+    qDebug() << "Phonon Normal Error, trying to continue";
   }
   //Call the next song when we are finished
   nextSong();
   
-  std::cout << "Changing Song" << std::endl;
+  qDebug() << "Changing Song";
 }
 
 void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
@@ -336,20 +334,18 @@ void Pianobar_QT_MainWindow::albumDownloaded(int id, bool err)
   
   if(request == id){
     if(err){
-      std::cout << "Error downloading Album Art" << std::endl;
+      qDebug() << "Error downloading Album Art";
       QIcon defaultIcon = QIcon::fromTheme("audio-ac3");
       albumArt->setPixmap(defaultIcon.pixmap(500,500));
       return;
     }else{
-      std::cout << "Downloaded Image" << std::endl;
+      qDebug() << "Downloaded Image";
     }
-    std::cout << "Found my request" << std::endl;
+    qDebug() << "Found my request";
     
     QImage image = QImage::fromData(imageData);
-  
     
     albumArt->setPixmap(QPixmap::fromImage(image));
-    
     
     //Sanity check
     Q_ASSERT(albumArt->pixmap() != 0);
@@ -365,7 +361,7 @@ void Pianobar_QT_MainWindow::playPauseToggle()
   }else if(media->state() == Phonon::PausedState){
     media->play();
   }else{
-    std::cout << "Invalid State" << std::endl;
+    qDebug() << "Invalid Phonon State";
   }
 }
 
@@ -383,8 +379,6 @@ void Pianobar_QT_MainWindow::enableButtons()
   next->setEnabled(true);
 }
 
-
-
 void Pianobar_QT_MainWindow::updateOnMediaStateChange()
 {
   if(media->state() == Phonon::PlayingState){
@@ -396,7 +390,7 @@ void Pianobar_QT_MainWindow::updateOnMediaStateChange()
   }else if(media->state() == Phonon::BufferingState){
     //Do Nothing
   }else if(media->state() == Phonon::ErrorState){
-    std::cout << "Error occured" <<std::endl;
+    qDebug() << "Error occured";
     disableButtons();//Disable the buttons so that they stay that way if there's more problems
     playSong(); //Attempt to replay the current song
   }else{
@@ -406,13 +400,13 @@ void Pianobar_QT_MainWindow::updateOnMediaStateChange()
 
 void Pianobar_QT_MainWindow::onNextSongSelect()
 {
-  std::cout << "Next pressed" << std::endl;
+  qDebug() << "Next pressed";
   nextSong();
 }
 
 void Pianobar_QT_MainWindow::onPrevSongSelect()
 {
-  std::cout << "Prev pressed" << std::endl;
+  qDebug() << "Prev pressed";
   prevSong();
 }
 
