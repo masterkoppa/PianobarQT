@@ -88,8 +88,8 @@ void Pianobar_QT::logIn(){
       return;
     }
     
-    free(user);
-    free(pass);
+    //free(user);
+    //free(pass);
     
     Pianobar_QT_MainWindow* mainWindow = new Pianobar_QT_MainWindow(username);
     mainWindow->setHandlers(ph, wh);
