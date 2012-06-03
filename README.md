@@ -29,6 +29,12 @@ cmake CMakeLists.txt
 make all
 ~~~
 
+This will produce the binary file: Pianobar-QT  
+If you have all the required dependencies you should be able to execute it by running the following:
+~~~
+./Pianobar-QT
+~~~
+
   
 Screenshot:
 ==========
