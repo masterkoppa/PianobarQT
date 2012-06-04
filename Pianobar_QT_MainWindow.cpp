@@ -58,8 +58,6 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow (QString username) : QMainWindow(
 
     QGridLayout* test = new QGridLayout (centralWidget);
 
-
-
     QVBoxLayout* infoLayout = new QVBoxLayout();
     
     this->buildLabels();
@@ -77,7 +75,15 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow (QString username) : QMainWindow(
 
     next = createButton ("Next Song", "media-skip-forward");
 
+    //Setup the default icon
     loveSong = createButton ("Neutral", "face-smile");
+    
+    QMenu* ratingMenu = new QMenu(this);
+    likeCurrSong = ratingMenu->addAction(QIcon::fromTheme("face-smile-big"), "Like");
+    neutralCurrSong = ratingMenu->addAction(QIcon::fromTheme("face-smile"), "Neutral");
+    dislikeCurrSong = ratingMenu->addAction(QIcon::fromTheme("face-uncertain"), "Dislike");
+    
+    loveSong->setMenu(ratingMenu);
 
     buttonLayout->addWidget (prev);
     buttonLayout->addWidget (playPause);
@@ -120,7 +126,10 @@ Pianobar_QT_MainWindow::Pianobar_QT_MainWindow (QString username) : QMainWindow(
     connect (playPause, SIGNAL (clicked (bool)), SLOT (playPauseToggle()));
     connect (next, SIGNAL (clicked (bool)), SLOT (onNextSongSelect()));
     connect (prev, SIGNAL (clicked (bool)), SLOT (onPrevSongSelect()));
-    connect (loveSong, SIGNAL(clicked(bool)), SLOT(onSongRateSelect()));
+    
+    connect(likeCurrSong, SIGNAL(triggered(bool)), SLOT(rate_likeSong()));
+    connect(neutralCurrSong, SIGNAL(triggered(bool)), SLOT(rate_neutSong()));
+    connect(dislikeCurrSong, SIGNAL(triggered(bool)), SLOT(rate_banSong()));
 
     //Since they're no functions you can do on start, disable the buttons
     disableButtons();
@@ -318,9 +327,6 @@ void Pianobar_QT_MainWindow::playSong()
     }
 }
 
-
-
-
 void Pianobar_QT_MainWindow::onEachTick()
 {
 
@@ -345,34 +351,6 @@ void Pianobar_QT_MainWindow::onEndOfSong()
     } else if (media->errorType() == Phonon::NormalError) {
         qDebug() << "Phonon Normal Error, trying to continue";
     }
-    
-    
-    
-    switch(songRating){
-      case PIANO_RATE_BAN:
-	if(!playlist[playlistIndex].isSongBanned()){
-	  qDebug() << "Submitting song rating";
-	  PianoSong_t song = playlist[playlistIndex].toPianoSong();
-	  piano.PianoRateSong(&ph, &wh, &song, songRating);
-	}
-	break;
-      case PIANO_RATE_LOVE:
-	if(!playlist[playlistIndex].isSongLoved()){
-	  qDebug() << "Submitting song rating";
-	  PianoSong_t song = playlist[playlistIndex].toPianoSong();
-	  piano.PianoRateSong(&ph, &wh, &song, songRating);
-	}
-	break;
-      case PIANO_RATE_NONE:
-	if(!playlist[playlistIndex].isSongNeutral()){
-	  qDebug() << "Submitting song rating";
-	  PianoSong_t song = playlist[playlistIndex].toPianoSong();
-	  piano.PianoRateSong(&ph, &wh, &song, songRating);
-	}
-	break;
-    }
-    
-    
     
     //Call the next song when we are finished
     nextSong();
@@ -463,41 +441,42 @@ void Pianobar_QT_MainWindow::onPrevSongSelect()
     prevSong();
 }
 
-void Pianobar_QT_MainWindow::onSongRateSelect()
+
+
+void Pianobar_QT_MainWindow::rate_likeSong()
 {
-  //Jump to next rating
-  switch(songRating){
-    case PIANO_RATE_NONE:
-      songRating = PIANO_RATE_LOVE;
-      break;
-    case PIANO_RATE_BAN:
-      songRating = PIANO_RATE_NONE;
-      break;
-    case PIANO_RATE_LOVE:
-      songRating = PIANO_RATE_BAN;
-      break;
-  }
+  loveSong->setIcon (QIcon::fromTheme ("face-smile-big"));
+  loveSong->setToolTip ("Liked");
+  songRating = PIANO_RATE_LOVE;
   
-  //Change the information
-  switch(songRating){
-    case PIANO_RATE_NONE:
-      loveSong->setIcon (QIcon::fromTheme ("face-smile"));
-      loveSong->setToolTip ("Neutral");
-      break;
-    case PIANO_RATE_BAN:
-      loveSong->setIcon (QIcon::fromTheme ("face-uncertain"));
-      loveSong->setToolTip ("Banned");
-      break;
-    case PIANO_RATE_LOVE:
-      loveSong->setIcon (QIcon::fromTheme ("face-smile-big"));
-      loveSong->setToolTip ("Loved");
-      break;
-  }
-  
+  qDebug() << "Submitting song rating, liking song";
+  PianoSong_t song = playlist[playlistIndex].toPianoSong();
+  piano.PianoRateSong(&ph, &wh, &song, songRating);
 }
 
+void Pianobar_QT_MainWindow::rate_neutSong()
+{
+  loveSong->setIcon (QIcon::fromTheme ("face-smile"));
+  loveSong->setToolTip ("Neutral");
+  songRating = PIANO_RATE_NONE;
+  
+  qDebug() << "Submitting song rating, unrating song";
+  PianoSong_t song = playlist[playlistIndex].toPianoSong();
+  piano.PianoRateSong(&ph, &wh, &song, songRating);
+}
 
+void Pianobar_QT_MainWindow::rate_banSong()
+{
+  loveSong->setIcon (QIcon::fromTheme ("face-uncertain"));
+  loveSong->setToolTip ("Disliked");
+  songRating = PIANO_RATE_BAN;
+  
+  qDebug() << "Submitting song rating, disliking song";
+  PianoSong_t song = playlist[playlistIndex].toPianoSong();
+  piano.PianoRateSong(&ph, &wh, &song, songRating);
+}
 
+    
 
 
 #include "Pianobar_QT_MainWindow.moc"

@@ -22,6 +22,8 @@ extern "C" {
 #include <QBuffer>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QMenu>
+#include <QAction>
 
 //Phonon
 #include <Phonon/MediaObject>
@@ -61,6 +63,10 @@ private:
     QPushButton* next;
     QPushButton* prev;
     QPushButton* loveSong;
+    
+    QAction* likeCurrSong;
+    QAction* neutralCurrSong;
+    QAction* dislikeCurrSong;
     
     QBuffer* imageBuffer;
     QHttp* http;
@@ -187,12 +193,11 @@ private slots:
      */
     void onPrevSongSelect();
     
-    /**
-     * Switched between the available ratings for the current song. This rating isn't
-     * updated until the end of the song. If you do any actions before the song ends normaly
-     * this rating won't be saved.
-     */
-    void onSongRateSelect();
+    void rate_likeSong();
+    
+    void rate_neutSong();
+    
+    void rate_banSong();
 };
 
 #endif // PIANOBAR_QT_MAINWINDOW_H
