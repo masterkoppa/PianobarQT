@@ -181,7 +181,7 @@ PianoSong_t* PianoSteps::PianoGetPlaylist(PianoHandle_t* pianoHandle, WaitressHa
   
   playlistReq.station = station;
   //TODO: Make this adjustable by some sort of settings
-  playlistReq.format = PIANO_AF_MP3_HI;
+  playlistReq.format = PIANO_AF_MP3;
   
   
   PianoRequest_t request;

@@ -235,8 +235,6 @@ void Pianobar_QT_MainWindow::getPlaylist()
             playlistDock->pushSong (playlist[i].toShortString());
         }
     }
-
-
 }
 
 void Pianobar_QT_MainWindow::nextSong()
